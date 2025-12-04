@@ -53,6 +53,36 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\Interfaces\IHoaDonService.cs" />
+    <Compile Include="BLL\Interfaces\IKhachHangService.cs" />
+    <Compile Include="BLL\Interfaces\INhanVienService.cs" />
+    <Compile Include="BLL\Interfaces\IPhieuNhapService.cs" />
+    <Compile Include="BLL\Interfaces\ISachService.cs" />
+    <Compile Include="BLL\Services\HoaDonService.cs" />
+    <Compile Include="BLL\Services\KhachHangService.cs" />
+    <Compile Include="BLL\Services\NhanVienService.cs" />
+    <Compile Include="BLL\Services\PhieuNhapService.cs" />
+    <Compile Include="BLL\Services\SachService.cs" />
+    <Compile Include="Common\ServiceContainer.cs" />
+    <Compile Include="DAL\DatabaseContext.cs" />
+    <Compile Include="DAL\Interfaces\IHoaDonRepository.cs" />
+    <Compile Include="DAL\Interfaces\IKhachHangRepository.cs" />
+    <Compile Include="DAL\Interfaces\INhanVienRepository.cs" />
+    <Compile Include="DAL\Interfaces\INhaXuatBanRepository.cs" />
+    <Compile Include="DAL\Interfaces\IPhieuNhapRepository.cs" />
+    <Compile Include="DAL\Interfaces\IRepository.cs" />
+    <Compile Include="DAL\Interfaces\ISachRepository.cs" />
+    <Compile Include="DAL\Interfaces\ITaiKhoanRepository.cs" />
+    <Compile Include="DAL\Interfaces\ITheLoaiRepository.cs" />
+    <Compile Include="DAL\Repositories\HoaDonRepository.cs" />
+    <Compile Include="DAL\Repositories\KhachHangRepository.cs" />
+    <Compile Include="DAL\Repositories\NhanVienRepository.cs" />
+    <Compile Include="DAL\Repositories\NhaXuatBanRepository.cs" />
+    <Compile Include="DAL\Repositories\PhieuNhapRepository.cs" />
+    <Compile Include="DAL\Repositories\SachRepository.cs" />
+    <Compile Include="DAL\Repositories\TaiKhoanRepository.cs" />
+    <Compile Include="DAL\Repositories\TheLoaiRepository.cs" />
+    <Compile Include="Examples\UsageExample.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +131,16 @@
     <Compile Include="Forms\FormStatistic.Designer.cs">
       <DependentUpon>FormStatistic.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChiTietHoaDon.cs" />
+    <Compile Include="Models\ChiTietPhieuNhap.cs" />
+    <Compile Include="Models\HoaDon.cs" />
+    <Compile Include="Models\KhachHang.cs" />
+    <Compile Include="Models\NhanVien.cs" />
+    <Compile Include="Models\NhaXuatBan.cs" />
+    <Compile Include="Models\PhieuNhap.cs" />
+    <Compile Include="Models\Sach.cs" />
+    <Compile Include="Models\TaiKhoan.cs" />
+    <Compile Include="Models\TheLoai.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
