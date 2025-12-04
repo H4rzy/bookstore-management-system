@@ -53,6 +53,37 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\ChiTietHoaDon_BLL.cs" />
+    <Compile Include="BLL\ChiTietPhieuNhap_BLL.cs" />
+    <Compile Include="BLL\HoaDon_BLL.cs" />
+    <Compile Include="BLL\KhachHang_BLL.cs" />
+    <Compile Include="BLL\NhanVien_BLL.cs" />
+    <Compile Include="BLL\NhaXuatBan_BLL.cs" />
+    <Compile Include="BLL\PhieuNhap_BLL.cs" />
+    <Compile Include="BLL\Sach_BLL.cs" />
+    <Compile Include="BLL\TaiKhoan_BLL.cs" />
+    <Compile Include="BLL\TheLoai_BLL.cs" />
+    <Compile Include="DAL\ChiTietHoaDonDAL.cs" />
+    <Compile Include="DAL\ChiTietPhieuNhapDAL.cs" />
+    <Compile Include="DAL\DBConnect.cs" />
+    <Compile Include="DAL\HoaDonDAL.cs" />
+    <Compile Include="DAL\KhachHangDAL.cs" />
+    <Compile Include="DAL\NhanVienDAL.cs" />
+    <Compile Include="DAL\NhaXuatBanDAL.cs" />
+    <Compile Include="DAL\PhieuNhapDAL.cs" />
+    <Compile Include="DAL\SachDAL.cs" />
+    <Compile Include="DAL\TaiKhoanDAL.cs" />
+    <Compile Include="DAL\TheLoaiDAL.cs" />
+    <Compile Include="DTO\ChiTietHoaDonDTO.cs" />
+    <Compile Include="DTO\ChiTietPhieuNhapDTO.cs" />
+    <Compile Include="DTO\HoaDonDTO.cs" />
+    <Compile Include="DTO\KhachHangDTO.cs" />
+    <Compile Include="DTO\NhanVienDTO.cs" />
+    <Compile Include="DTO\NhaXuatBanDTO.cs" />
+    <Compile Include="DTO\PhieuNhapDTO.cs" />
+    <Compile Include="DTO\SachDTO.cs" />
+    <Compile Include="DTO\TaiKhoanDTO.cs" />
+    <Compile Include="DTO\TheLoaiDTO.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,5 +170,6 @@
   <ItemGroup>
     <None Include="Resources\f6f225ae-e23d-43cf-afb1-fede3553ac0c_removalai_preview %283%29.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
