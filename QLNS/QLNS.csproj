@@ -90,52 +90,93 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormBooks.cs">
+    <Compile Include="UI\Forms\BookDetails\FormAuthors.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormBooks.Designer.cs">
+    <Compile Include="UI\Forms\BookDetails\FormAuthors.Designer.cs">
+      <DependentUpon>FormAuthors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\BookDetails\FormBooks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\BookDetails\FormBooks.Designer.cs">
       <DependentUpon>FormBooks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormCustomers.cs">
+    <Compile Include="UI\Forms\BookDetails\FormCategories.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormCustomers.Designer.cs">
+    <Compile Include="UI\Forms\BookDetails\FormCategories.Designer.cs">
+      <DependentUpon>FormCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\FormNavBooks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\FormNavBooks.Designer.cs">
+      <DependentUpon>FormNavBooks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\FormCustomers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\FormCustomers.Designer.cs">
       <DependentUpon>FormCustomers.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormDashboard.cs">
+    <Compile Include="UI\Forms\FormDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormDashboard.Designer.cs">
+    <Compile Include="UI\Forms\FormDashboard.Designer.cs">
       <DependentUpon>FormDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormImport.cs">
+    <Compile Include="UI\Forms\FormImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormImport.Designer.cs">
+    <Compile Include="UI\Forms\FormImport.Designer.cs">
       <DependentUpon>FormImport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormReceipt.cs">
+    <Compile Include="UI\Forms\FormOrders.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormReceipt.Designer.cs">
+    <Compile Include="UI\Forms\FormOrders.Designer.cs">
+      <DependentUpon>FormOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\FormReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\FormReceipt.Designer.cs">
       <DependentUpon>FormReceipt.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormStaff.cs">
+    <Compile Include="UI\Forms\FormStaff.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormStaff.Designer.cs">
+    <Compile Include="UI\Forms\FormStaff.Designer.cs">
       <DependentUpon>FormStaff.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormStatistic.cs">
+    <Compile Include="UI\Forms\FormStaffDetail.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormStatistic.Designer.cs">
+    <Compile Include="UI\Forms\FormStaffDetail.Designer.cs">
+      <DependentUpon>FormStaffDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\FormStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\FormStatistic.Designer.cs">
       <DependentUpon>FormStatistic.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Helper\ComboDataProvider.cs" />
+    <Compile Include="UI\Helper\ControlHelper.cs" />
+    <Compile Include="UI\Helper\FormDataHelper.cs" />
+    <Compile Include="UI\Helper\MessageHelper.cs" />
+    <Compile Include="UI\Helper\ValidationHelper.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\BookDetails\FormBooks.resx">
+      <DependentUpon>FormBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\FormNavBooks.resx">
+      <DependentUpon>FormNavBooks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

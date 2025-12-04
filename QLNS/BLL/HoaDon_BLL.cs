@@ -68,5 +68,15 @@ namespace QLNS_BLL
             }
             catch { return null; }
         }
+
+        public List<HoaDonDTO> LayHoaDonTheoKhachHang(string maKH)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(maKH)) return new List<HoaDonDTO>();
+                return dal.layHoaDonTheoKhachHang(maKH);
+            }
+            catch { return new List<HoaDonDTO>(); }
+        }
     }
 }

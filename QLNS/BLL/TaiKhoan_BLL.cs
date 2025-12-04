@@ -100,5 +100,23 @@ namespace QLNS_BLL
             }
             catch { return new List<TaiKhoanDTO>(); }
         }
+
+        public bool CapNhatTaiKhoan(TaiKhoanDTO dto, bool updatePassword)
+        {
+            try
+            {
+                if (dto == null) return false;
+                if (string.IsNullOrEmpty(dto.TenDangNhap)) return false;
+
+                // If updating password, hash it
+                if (updatePassword && !string.IsNullOrEmpty(dto.MatKhau))
+                {
+                    dto.MatKhau = MaHoaPassword(dto.MatKhau);
+                }
+
+                return dal.capNhatTaiKhoan(dto);
+            }
+            catch { return false; }
+        }
     }
 }

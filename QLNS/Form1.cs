@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using FontAwesome.Sharp;
 using QLNS.Forms;
+using QLNS.UI.Forms;
 using Color = System.Drawing.Color;
 
 namespace QLNS
@@ -95,7 +96,7 @@ namespace QLNS
         private void iconButton2_Click(object sender, EventArgs e)
         {
             ActivateButton(sender, RGBColors.color6);
-            OpenChildForm(new FormBooks(), sender);
+            OpenChildForm(new FormNavBooks(), sender);
         }
 
         private void iconButton3_Click(object sender, EventArgs e)
