@@ -11,18 +11,29 @@ namespace QLNS_DTO
         public string TenDangNhap { get; set; }
         public string MatKhau { get; set; }
         public string MaNV { get; set; }
-        public string Quyen { get; set; }
+        public string MaRole { get; set; }
+        public bool TrangThai { get; set; }
 
-        public TaiKhoanDTO(string tenDangNhap, string matKhau, string maNV, string quyen)
+        // Legacy property for backward compatibility
+        [Obsolete("Use MaRole instead")]
+        public string Quyen 
+        { 
+            get => MaRole; 
+            set => MaRole = value; 
+        }
+
+        public TaiKhoanDTO(string tenDangNhap, string matKhau, string maNV, string maRole, bool trangThai = true)
         {
             TenDangNhap = tenDangNhap;
             MatKhau = matKhau;
             MaNV = maNV;
-            Quyen = quyen;
+            MaRole = maRole;
+            TrangThai = trangThai;
         }
 
         public TaiKhoanDTO()
         {
+            TrangThai = true;
         }
     }
 }

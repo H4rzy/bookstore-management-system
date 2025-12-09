@@ -78,10 +78,10 @@
             this.btnAuthors.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnAuthors.IconSize = 32;
             this.btnAuthors.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAuthors.Location = new System.Drawing.Point(360, 0);
+            this.btnAuthors.Location = new System.Drawing.Point(463, 0);
             this.btnAuthors.Name = "btnAuthors";
             this.btnAuthors.Padding = new System.Windows.Forms.Padding(10, 0, 20, 0);
-            this.btnAuthors.Size = new System.Drawing.Size(180, 60);
+            this.btnAuthors.Size = new System.Drawing.Size(265, 60);
             this.btnAuthors.TabIndex = 2;
             this.btnAuthors.Text = "Nhà xuất bản";
             this.btnAuthors.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -101,10 +101,10 @@
             this.btnCategories.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCategories.IconSize = 32;
             this.btnCategories.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCategories.Location = new System.Drawing.Point(180, 0);
+            this.btnCategories.Location = new System.Drawing.Point(225, 0);
             this.btnCategories.Name = "btnCategories";
             this.btnCategories.Padding = new System.Windows.Forms.Padding(10, 0, 20, 0);
-            this.btnCategories.Size = new System.Drawing.Size(180, 60);
+            this.btnCategories.Size = new System.Drawing.Size(238, 60);
             this.btnCategories.TabIndex = 1;
             this.btnCategories.Text = "  Thể Loại";
             this.btnCategories.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -127,7 +127,7 @@
             this.btnBooks.Location = new System.Drawing.Point(0, 0);
             this.btnBooks.Name = "btnBooks";
             this.btnBooks.Padding = new System.Windows.Forms.Padding(10, 0, 20, 0);
-            this.btnBooks.Size = new System.Drawing.Size(180, 60);
+            this.btnBooks.Size = new System.Drawing.Size(225, 60);
             this.btnBooks.TabIndex = 0;
             this.btnBooks.Text = "  Sách";
             this.btnBooks.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

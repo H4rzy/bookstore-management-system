@@ -29,6 +29,34 @@ namespace QLNS.Forms
         {
             LoadData();
             cboGioiTinh.SelectedIndex = 0; // Default to Nam
+            
+            // Check admin permission
+            CheckPermission();
+        }
+        
+        private void CheckPermission()
+        {
+            bool isAdmin = CurrentUser.IsAdmin;
+            
+            // Disable buttons for non-admin users
+            btnAdd.Enabled = isAdmin;
+            btnSave.Enabled = isAdmin;
+            btnDelete.Enabled = isAdmin;
+            btnEdit.Enabled = isAdmin;
+            
+            // Disable input fields for non-admin users
+            txtMaNV.Enabled = isAdmin;
+            txtTenNV.Enabled = isAdmin;
+            cboGioiTinh.Enabled = isAdmin;
+            txtDienThoai.Enabled = isAdmin;
+            txtDiaChi.Enabled = isAdmin;
+            txtChucVu.Enabled = isAdmin;
+            
+            if (!isAdmin)
+            {
+                MessageBox.Show("Bạn chỉ có quyền xem danh sách nhân viên.\nChỉ Admin mới có quyền thêm/sửa/xóa.",
+                    "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void LoadData()
@@ -110,6 +138,13 @@ namespace QLNS.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (!CurrentUser.IsAdmin)
+            {
+                MessageBox.Show("Chỉ Admin mới có quyền thêm nhân viên!", "Không có quyền",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
             ClearInputs();
             isEditMode = false;
             txtMaNV.Enabled = true;
@@ -118,6 +153,13 @@ namespace QLNS.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            if (!CurrentUser.IsAdmin)
+            {
+                MessageBox.Show("Chỉ Admin mới có quyền lưu thông tin nhân viên!", "Không có quyền",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
             try
             {
                 // Create DTO
@@ -145,8 +187,19 @@ namespace QLNS.Forms
                     if (nhanVienBLL.CapNhatNhanVien(nv))
                     {
                         MessageHelper.ShowUpdateSuccess("nhân viên");
+                        string currentMaNV = txtMaNV.Text.Trim();
                         LoadData();
-                        ClearInputs();
+                        
+                        // Reselect the updated row
+                        foreach (DataGridViewRow row in dgvStaff.Rows)
+                        {
+                            if (row.Cells["MaNV"].Value?.ToString() == currentMaNV)
+                            {
+                                row.Selected = true;
+                                dgvStaff.CurrentCell = row.Cells[0];
+                                break;
+                            }
+                        }
                     }
                     else
                     {
@@ -183,6 +236,13 @@ namespace QLNS.Forms
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (!CurrentUser.IsAdmin)
+            {
+                MessageBox.Show("Chỉ Admin mới có quyền xóa nhân viên!", "Không có quyền",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
             try
             {
                 if (!ControlHelper.IsRowSelected(dgvStaff))
@@ -233,6 +293,13 @@ namespace QLNS.Forms
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
+            if (!CurrentUser.IsAdmin)
+            {
+                MessageBox.Show("Chỉ Admin mới có quyền sửa thông tin nhân viên!", "Không có quyền",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
             try
             {
                 if (!ControlHelper.IsRowSelected(dgvStaff))

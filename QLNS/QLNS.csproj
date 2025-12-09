@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="FontAwesome.Sharp, Version=6.6.0.0, Culture=neutral, PublicKeyToken=d16d1e4e568ec10f, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.Sharp.6.6.0\lib\net48\FontAwesome.Sharp.dll</HintPath>
     </Reference>
@@ -53,37 +56,49 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\AuthService.cs" />
     <Compile Include="BLL\ChiTietHoaDon_BLL.cs" />
     <Compile Include="BLL\ChiTietPhieuNhap_BLL.cs" />
     <Compile Include="BLL\HoaDon_BLL.cs" />
     <Compile Include="BLL\KhachHang_BLL.cs" />
     <Compile Include="BLL\NhanVien_BLL.cs" />
     <Compile Include="BLL\NhaXuatBan_BLL.cs" />
+    <Compile Include="BLL\PermissionService.cs" />
     <Compile Include="BLL\PhieuNhap_BLL.cs" />
     <Compile Include="BLL\Sach_BLL.cs" />
     <Compile Include="BLL\TaiKhoan_BLL.cs" />
     <Compile Include="BLL\TheLoai_BLL.cs" />
+    <Compile Include="CurrentUser.cs" />
+    <Compile Include="DAL\AuditLogDAL.cs" />
     <Compile Include="DAL\ChiTietHoaDonDAL.cs" />
     <Compile Include="DAL\ChiTietPhieuNhapDAL.cs" />
     <Compile Include="DAL\DBConnect.cs" />
+    <Compile Include="DAL\DM_ManHinhDAL.cs" />
     <Compile Include="DAL\HoaDonDAL.cs" />
     <Compile Include="DAL\KhachHangDAL.cs" />
     <Compile Include="DAL\NhanVienDAL.cs" />
     <Compile Include="DAL\NhaXuatBanDAL.cs" />
     <Compile Include="DAL\PhieuNhapDAL.cs" />
+    <Compile Include="DAL\QuyenDAL.cs" />
+    <Compile Include="DAL\RoleDAL.cs" />
     <Compile Include="DAL\SachDAL.cs" />
     <Compile Include="DAL\TaiKhoanDAL.cs" />
     <Compile Include="DAL\TheLoaiDAL.cs" />
+    <Compile Include="DTO\AuditLogDTO.cs" />
     <Compile Include="DTO\ChiTietHoaDonDTO.cs" />
     <Compile Include="DTO\ChiTietPhieuNhapDTO.cs" />
+    <Compile Include="DTO\DM_ManHinhDTO.cs" />
     <Compile Include="DTO\HoaDonDTO.cs" />
     <Compile Include="DTO\KhachHangDTO.cs" />
     <Compile Include="DTO\NhanVienDTO.cs" />
     <Compile Include="DTO\NhaXuatBanDTO.cs" />
     <Compile Include="DTO\PhieuNhapDTO.cs" />
+    <Compile Include="DTO\QuyenDTO.cs" />
+    <Compile Include="DTO\RoleDTO.cs" />
     <Compile Include="DTO\SachDTO.cs" />
     <Compile Include="DTO\TaiKhoanDTO.cs" />
     <Compile Include="DTO\TheLoaiDTO.cs" />
+    <Compile Include="DTO\UserSessionDTO.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +123,12 @@
     <Compile Include="UI\Forms\BookDetails\FormCategories.Designer.cs">
       <DependentUpon>FormCategories.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Forms\FormLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\FormLogin.Designer.cs">
+      <DependentUpon>FormLogin.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Forms\FormNavBooks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,11 +147,17 @@
     <Compile Include="UI\Forms\FormDashboard.Designer.cs">
       <DependentUpon>FormDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Forms\FormImport.cs">
+    <Compile Include="UI\Forms\FormNavImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Forms\FormImport.Designer.cs">
-      <DependentUpon>FormImport.cs</DependentUpon>
+    <Compile Include="UI\Forms\FormNavImport.Designer.cs">
+      <DependentUpon>FormNavImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\FormNavReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\FormNavReceipt.Designer.cs">
+      <DependentUpon>FormNavReceipt.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Forms\FormOrders.cs">
       <SubType>Form</SubType>
@@ -164,6 +191,60 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Forms\ImportDetails\FormImportDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ImportDetails\FormImportDetails.Designer.cs">
+      <DependentUpon>FormImportDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ImportDetails\FormImportList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ImportDetails\FormImportList.Designer.cs">
+      <DependentUpon>FormImportList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ReceiptDetails\FormReceiptDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ReceiptDetails\FormReceiptDetails.Designer.cs">
+      <DependentUpon>FormReceiptDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ReceiptDetails\FormReceiptList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\ReceiptDetails\FormReceiptList.Designer.cs">
+      <DependentUpon>FormReceiptList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormCustomerStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormCustomerStatistic.Designer.cs">
+      <DependentUpon>FormCustomerStatistic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormInventoryStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormInventoryStatistic.Designer.cs">
+      <DependentUpon>FormInventoryStatistic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormRevenueStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormRevenueStatistic.Designer.cs">
+      <DependentUpon>FormRevenueStatistic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormTopBooksStatistic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Forms\Statistic\FormTopBooksStatistic.Designer.cs">
+      <DependentUpon>FormTopBooksStatistic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Forms\ThongKe.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ThongKe.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Helper\ComboDataProvider.cs" />
     <Compile Include="UI\Helper\ControlHelper.cs" />
     <Compile Include="UI\Helper\FormDataHelper.cs" />
@@ -174,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\BookDetails\FormBooks.resx">
       <DependentUpon>FormBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\FormLogin.resx">
+      <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Forms\FormNavBooks.resx">
       <DependentUpon>FormNavBooks.cs</DependentUpon>
@@ -188,6 +272,28 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\Forms\FormNavImport.resx">
+      <DependentUpon>FormNavImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\FormNavReceipt.resx">
+      <DependentUpon>FormNavReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\FormStaff.resx">
+      <DependentUpon>FormStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\FormStaffDetail.resx">
+      <DependentUpon>FormStaffDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ImportDetails\FormImportDetails.resx">
+      <DependentUpon>FormImportDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ImportDetails\FormImportList.resx">
+      <DependentUpon>FormImportList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Forms\ThongKe.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ThongKe.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -203,6 +309,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Reports\README.md" />
     <None Include="Resources\f6f225ae-e23d-43cf-afb1-fede3553ac0c_removalai_preview.png" />
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +318,11 @@
   <ItemGroup>
     <None Include="Resources\f6f225ae-e23d-43cf-afb1-fede3553ac0c_removalai_preview %283%29.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\login_bg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

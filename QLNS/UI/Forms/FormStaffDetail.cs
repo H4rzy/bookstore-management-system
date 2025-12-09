@@ -49,13 +49,6 @@ namespace QLNS.UI.Forms
                 var dsTaiKhoan = taiKhoanBLL.LayDanhSachTaiKhoan();
                 currentTaiKhoan = dsTaiKhoan.FirstOrDefault(tk => tk.MaNV == maNV);
 
-                // Fill employee info
-                txtMaNV.Text = currentNhanVien.MaNV;
-                txtTenNV.Text = currentNhanVien.TenNV;
-                cboGioiTinh.Text = currentNhanVien.GioiTinh ? "Nam" : "Nữ";
-                txtDienThoai.Text = currentNhanVien.DienThoai;
-                txtDiaChi.Text = currentNhanVien.DiaChi;
-                txtChucVu.Text = currentNhanVien.ChucVu;
 
                 // Fill account info
                 if (currentTaiKhoan != null)
@@ -83,25 +76,6 @@ namespace QLNS.UI.Forms
         {
             try
             {
-                // Validate employee fields
-                if (!ControlHelper.ValidateRequiredTextBox(txtTenNV, "Tên nhân viên"))
-                    return;
-
-                if (!ValidationHelper.IsValidName(txtTenNV.Text.Trim()))
-                {
-                    MessageHelper.ShowInvalidDataError("Tên nhân viên", "Chỉ chấp nhận chữ cái");
-                    txtTenNV.Focus();
-                    return;
-                }
-
-                if (!string.IsNullOrWhiteSpace(txtDienThoai.Text) &&
-                    !ValidationHelper.IsValidPhone(txtDienThoai.Text.Trim()))
-                {
-                    MessageHelper.ShowInvalidDataError("Điện thoại", "Số điện thoại không hợp lệ");
-                    txtDienThoai.Focus();
-                    return;
-                }
-
                 // Validate password if changed
                 bool updatePassword = false;
                 if (!string.IsNullOrWhiteSpace(txtPassword.Text) || !string.IsNullOrWhiteSpace(txtConfirmPassword.Text))
@@ -123,44 +97,41 @@ namespace QLNS.UI.Forms
                     updatePassword = true;
                 }
 
-                // Update employee
-                NhanVienDTO nv = new NhanVienDTO
+                // Validate role
+                if (string.IsNullOrWhiteSpace(cboQuyen.Text))
                 {
-                    MaNV = txtMaNV.Text.Trim(),
-                    TenNV = txtTenNV.Text.Trim(),
-                    GioiTinh = cboGioiTinh.Text == "Nam",
-                    DienThoai = txtDienThoai.Text.Trim(),
-                    DiaChi = txtDiaChi.Text.Trim(),
-                    ChucVu = txtChucVu.Text.Trim()
-                };
-
-                if (!nhanVienBLL.CapNhatNhanVien(nv))
-                {
-                    MessageHelper.ShowUpdateError("nhân viên");
+                    MessageHelper.ShowError("Lỗi", "Vui lòng chọn quyền");
+                    cboQuyen.Focus();
                     return;
                 }
 
-                // Update account if exists
-                if (currentTaiKhoan != null)
+                // Update account
+                if (currentTaiKhoan == null)
                 {
-                    TaiKhoanDTO tk = new TaiKhoanDTO
-                    {
-                        TenDangNhap = currentTaiKhoan.TenDangNhap,
-                        MaNV = txtMaNV.Text.Trim(),
-                        Quyen = cboQuyen.Text,
-                        MatKhau = updatePassword ? txtPassword.Text : currentTaiKhoan.MatKhau
-                    };
-
-                    if (!taiKhoanBLL.CapNhatTaiKhoan(tk, updatePassword))
-                    {
-                        MessageHelper.ShowUpdateError("tài khoản");
-                        return;
-                    }
+                    MessageHelper.ShowError("Lỗi", "Nhân viên chưa có tài khoản");
+                    return;
                 }
 
-                MessageHelper.ShowUpdateSuccess("nhân viên và tài khoản");
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                // Prepare DTO for update
+                TaiKhoanDTO updatedAccount = new TaiKhoanDTO
+                {
+                    TenDangNhap = currentTaiKhoan.TenDangNhap,
+                    MaNV = currentTaiKhoan.MaNV,
+                    Quyen = cboQuyen.Text,
+                    MatKhau = updatePassword ? txtPassword.Text : currentTaiKhoan.MatKhau
+                };
+
+                // Call BLL to update
+                if (taiKhoanBLL.CapNhatTaiKhoan(updatedAccount, updatePassword))
+                {
+                    MessageHelper.ShowUpdateSuccess("tài khoản");
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    MessageHelper.ShowUpdateError("tài khoản");
+                }
             }
             catch (Exception ex)
             {

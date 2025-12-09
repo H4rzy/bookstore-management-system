@@ -12,6 +12,8 @@ using System.Windows.Media;
 using FontAwesome.Sharp;
 using QLNS.Forms;
 using QLNS.UI.Forms;
+using QLNS_BLL;
+using QLNS_DTO;
 using Color = System.Drawing.Color;
 
 namespace QLNS
@@ -22,6 +24,9 @@ namespace QLNS
         private IconButton currentBtn;
         private Panel leftBorderBtn;
         private Form currentChildForm;
+        private PermissionService permissionService = new PermissionService();
+        private Label lblUserInfo; // Display current user info
+        private IconButton btnLogout; // Logout button
 
         public Form1()
         {
@@ -35,6 +40,9 @@ namespace QLNS
             this.DoubleBuffered = true;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
             this.Resize += Form1_Resize;
+            
+            // Initialize RBAC
+            InitializeRBAC();
         }
 
 
@@ -89,44 +97,50 @@ namespace QLNS
 
         private void BtnDashboard_Click(object sender, EventArgs e)
         {
+            if (!CheckAndLogPermission("SF_DASHBOARD", "Dashboard")) return;
             ActivateButton(sender, RGBColors.color6);
             OpenChildForm(new FormDashboard(),sender);
         }
 
         private void iconButton2_Click(object sender, EventArgs e)
         {
+            if (!CheckAndLogPermission("SF001", "Quản lý Sách")) return;
             ActivateButton(sender, RGBColors.color6);
             OpenChildForm(new FormNavBooks(), sender);
         }
 
         private void iconButton3_Click(object sender, EventArgs e)
         {
+            if (!CheckAndLogPermission("SF003", "Quản lý Khách Hàng")) return;
             ActivateButton(sender, RGBColors.color6);
             OpenChildForm(new FormCustomers(), sender);
-
         }
 
         private void iconButton4_Click(object sender, EventArgs e)
         {
+            if (!CheckAndLogPermission("SF004", "Quản lý Nhân Viên")) return;
             ActivateButton(sender, RGBColors.color6);
             OpenChildForm(new FormStaff(), sender);
         }
 
         private void iconButton5_Click(object sender, EventArgs e)
         {
+            if (!CheckAndLogPermission("SF005", "Quản lý Nhập Hàng")) return;
             ActivateButton(sender, RGBColors.color6);
-            OpenChildForm(new FormImport(), sender);
+            OpenChildForm(new FormNavImport(), sender);
         }
 
         private void iconButton6_Click(object sender, EventArgs e)
         {
+            if (!CheckAndLogPermission("SF007", "Thống Kê/Báo Cáo")) return;
             ActivateButton(sender, RGBColors.color6);
             OpenChildForm(new FormStatistic(), sender);
         }
         private void BtnReceipt_Click(object sender, EventArgs e)
         {
+            if (!CheckAndLogPermission("SF006", "Quản lý Hóa Đơn")) return;
             ActivateButton(sender, RGBColors.color6);
-            OpenChildForm(new FormReceipt(), sender);
+            OpenChildForm(new FormNavReceipt(), sender);
         }
 
 
@@ -208,5 +222,141 @@ namespace QLNS
                 FormBorderStyle = FormBorderStyle.Sizable;
         }
 
+        /// <summary>
+        /// Initialize RBAC - Load user info and set button permissions
+        /// </summary>
+        private void InitializeRBAC()
+        {
+            // Add user info label to top panel
+            lblUserInfo = new Label
+            {
+                AutoSize = false,
+                ForeColor = Color.Gainsboro,
+                TextAlign = ContentAlignment.MiddleRight,
+                Dock = DockStyle.Right,
+                Width = 300,
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular)
+            };
+            panel3.Controls.Add(lblUserInfo);
+            lblUserInfo.BringToFront();
+
+            // Add logout button to sidebar
+            btnLogout = new IconButton
+            {
+                Dock = DockStyle.Bottom,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Color.Gainsboro,
+                IconChar = IconChar.SignOutAlt,
+                IconColor = Color.Gainsboro,
+                IconFont = IconFont.Auto,
+                IconSize = 32,
+                ImageAlign = ContentAlignment.MiddleLeft,
+                Text = "Đăng xuất",
+                TextAlign = ContentAlignment.MiddleLeft,
+                TextImageRelation = TextImageRelation.ImageBeforeText,
+                Padding = new Padding(10, 0, 20, 0),
+                Height = 60
+            };
+            btnLogout.FlatAppearance.BorderSize = 0;
+            btnLogout.Click += BtnLogout_Click;
+            panel1.Controls.Add(btnLogout);
+
+            // Display user info
+            if (CurrentUser.IsLoggedIn)
+            {
+                lblUserInfo.Text = $"👤 {CurrentUser.TenNV}  |  {CurrentUser.CurrentSession.TenRole}";
+                
+                // Set button visibility based on permissions
+                SetButtonPermissions();
+            }
+        }
+
+        /// <summary>
+        /// Set button visibility based on user permissions
+        /// </summary>
+        private void SetButtonPermissions()
+        {
+            // Dashboard - always visible
+            BtnDashboard.Visible = true;
+
+            // Books - SF001
+            BtnBooks.Visible = CurrentUser.HasPermission("SF001");
+
+            // Customers - SF003
+            BtnCustomers.Visible = CurrentUser.HasPermission("SF003");
+
+            // Staff - SF004
+            BtnStaff.Visible = CurrentUser.HasPermission("SF004");
+
+            // Import - SF005
+            BtnImport.Visible = CurrentUser.HasPermission("SF005");
+
+            // Receipt/Invoice - SF006
+            BtnReceipt.Visible = CurrentUser.HasPermission("SF006");
+
+            // Statistics - SF007
+            BtnStatistics.Visible = CurrentUser.HasPermission("SF007");
+        }
+
+        /// <summary>
+        /// Check permission and log activity
+        /// </summary>
+        private bool CheckAndLogPermission(string maManHinh, string tenManHinh)
+        {
+            if (!CurrentUser.HasPermission(maManHinh))
+            {
+                MessageBox.Show("Bạn không có quyền truy cập chức năng này!", 
+                    "Từ chối truy cập", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            // Log access
+            permissionService.LogActivity(
+                CurrentUser.Username,
+                $"Truy cập: {tenManHinh}",
+                $"Mã màn hình: {maManHinh}"
+            );
+
+            return true;
+        }
+
+        /// <summary>
+        /// Logout button click handler
+        /// </summary>
+        private void BtnLogout_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Bạn có chắc chắn muốn đăng xuất?",
+                "Xác nhận đăng xuất",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                // Log logout
+                AuthService authService = new AuthService();
+                authService.Logout(CurrentUser.CurrentSession);
+
+                // Clear session
+                CurrentUser.Clear();
+
+                // Close main form
+                this.Close();
+
+                // Show login form
+                FormLogin loginForm = new FormLogin();
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    // User logged in again, show new main form
+                    Application.Run(new Form1());
+                }
+                else
+                {
+                    // Exit application
+                    Application.Exit();
+                }
+            }
+        }
     }
 }

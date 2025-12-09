@@ -25,7 +25,10 @@ namespace QLNS_DAL
                 tk.TenDangNhap = rd["TenDangNhap"].ToString();
                 tk.MatKhau = rd["MatKhau"].ToString();
                 tk.MaNV = rd["MaNV"].ToString();
-                tk.Quyen = rd["Quyen"].ToString();
+                tk.MaRole = rd["MaRole"].ToString();
+                // Try to read TrangThai if column exists, default to true if not
+                try { tk.TrangThai = rd["TrangThai"] != DBNull.Value ? Convert.ToBoolean(rd["TrangThai"]) : true; }
+                catch { tk.TrangThai = true; }
                 lst.Add(tk);
             }
             con.Close();
@@ -47,7 +50,10 @@ namespace QLNS_DAL
                 tk.TenDangNhap = rd["TenDangNhap"].ToString();
                 tk.MatKhau = rd["MatKhau"].ToString();
                 tk.MaNV = rd["MaNV"].ToString();
-                tk.Quyen = rd["Quyen"].ToString();
+                tk.MaRole = rd["MaRole"].ToString();
+                // Try to read TrangThai if column exists, default to true if not
+                try { tk.TrangThai = rd["TrangThai"] != DBNull.Value ? Convert.ToBoolean(rd["TrangThai"]) : true; }
+                catch { tk.TrangThai = true; }
             }
             con.Close();
             return tk;
@@ -70,12 +76,13 @@ namespace QLNS_DAL
         {
             if (ConnectionState.Closed == con.State)
                 con.Open();
-            string sql = "INSERT INTO TaiKhoan VALUES(@TenDangNhap, @MatKhau, @MaNV, @Quyen)";
+            string sql = "INSERT INTO TaiKhoan VALUES(@TenDangNhap, @MatKhau, @MaNV, @MaRole, @TrangThai)";
             SqlCommand cmd = new SqlCommand(sql, con);
             cmd.Parameters.AddWithValue("@TenDangNhap", tk.TenDangNhap);
             cmd.Parameters.AddWithValue("@MatKhau", tk.MatKhau);
             cmd.Parameters.AddWithValue("@MaNV", tk.MaNV);
-            cmd.Parameters.AddWithValue("@Quyen", tk.Quyen);
+            cmd.Parameters.AddWithValue("@MaRole", tk.MaRole);
+            cmd.Parameters.AddWithValue("@TrangThai", tk.TrangThai);
             int rs = cmd.ExecuteNonQuery();
             con.Close();
             return rs > 0;
@@ -85,12 +92,13 @@ namespace QLNS_DAL
         {
             if (ConnectionState.Closed == con.State)
                 con.Open();
-            string sql = "UPDATE TaiKhoan SET MatKhau = @MatKhau, MaNV = @MaNV, Quyen = @Quyen WHERE TenDangNhap = @TenDangNhap";
+            string sql = "UPDATE TaiKhoan SET MatKhau = @MatKhau, MaNV = @MaNV, MaRole = @MaRole, TrangThai = @TrangThai WHERE TenDangNhap = @TenDangNhap";
             SqlCommand cmd = new SqlCommand(sql, con);
             cmd.Parameters.AddWithValue("@TenDangNhap", tk.TenDangNhap);
             cmd.Parameters.AddWithValue("@MatKhau", tk.MatKhau);
             cmd.Parameters.AddWithValue("@MaNV", tk.MaNV);
-            cmd.Parameters.AddWithValue("@Quyen", tk.Quyen);
+            cmd.Parameters.AddWithValue("@MaRole", tk.MaRole);
+            cmd.Parameters.AddWithValue("@TrangThai", tk.TrangThai);
             int rs = cmd.ExecuteNonQuery();
             con.Close();
             return rs > 0;
@@ -131,6 +139,47 @@ namespace QLNS_DAL
             int rs = (int)cmd.ExecuteScalar();
             con.Close();
             return rs > 0;
+        }
+
+        /// <summary>
+        /// Get user info with Role and NhanVien details for login
+        /// </summary>
+        public DataRow LayThongTinDangNhap(string tenDangNhap, string matKhau)
+        {
+            DataRow result = null;
+            try
+            {
+                if (ConnectionState.Closed == con.State)
+                    con.Open();
+                
+                // Removed TrangThai check for backward compatibility with existing database
+                string sql = @"SELECT tk.TenDangNhap, tk.MaRole, r.TenRole, nv.MaNV, nv.TenNV, nv.ChucVu
+                              FROM TaiKhoan tk
+                              INNER JOIN Role r ON tk.MaRole = r.MaRole
+                              INNER JOIN NhanVien nv ON tk.MaNV = nv.MaNV
+                              WHERE tk.TenDangNhap = @TenDangNhap AND tk.MatKhau = @MatKhau";
+                
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@TenDangNhap", tenDangNhap);
+                cmd.Parameters.AddWithValue("@MatKhau", matKhau);
+                
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                
+                if (dt.Rows.Count > 0)
+                    result = dt.Rows[0];
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in LayThongTinDangNhap: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            return result;
         }
     }
 }
