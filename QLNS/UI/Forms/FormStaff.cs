@@ -27,11 +27,106 @@ namespace QLNS.Forms
 
         private void FormStaff_Load(object sender, EventArgs e)
         {
+            LoadFilters();
             LoadData();
             cboGioiTinh.SelectedIndex = 0; // Default to Nam
             
             // Check admin permission
             CheckPermission();
+        }
+        
+        private void LoadFilters()
+        {
+            // Load position filter using BLL method
+            var positions = nhanVienBLL.LayDanhSachChucVu();
+            cboFilterChucVu.Items.Clear();
+            cboFilterChucVu.Items.Add("Tất cả");
+            foreach (var pos in positions)
+            {
+                cboFilterChucVu.Items.Add(pos);
+            }
+            cboFilterChucVu.SelectedIndex = 0;
+            
+            // Gender filter already has items from Designer
+            cboFilterGioiTinh.SelectedIndex = 0;
+        }
+        
+        private void cboFilterChucVu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+        
+        private void cboFilterGioiTinh_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+        
+        private void ApplyFilters()
+        {
+            try
+            {
+                List<NhanVienDTO> dsNhanVien;
+                
+                // Filter by gender first using BLL methods
+                string selectedGender = cboFilterGioiTinh.SelectedItem?.ToString() ?? "Tất cả";
+                if (selectedGender == "Nam")
+                {
+                    dsNhanVien = nhanVienBLL.LayDanhSachNhanVienNam();
+                }
+                else if (selectedGender == "Nữ")
+                {
+                    dsNhanVien = nhanVienBLL.LayDanhSachNhanVienNu();
+                }
+                else
+                {
+                    dsNhanVien = nhanVienBLL.LayDanhSachNhanVien();
+                }
+                
+                // Then filter by position using BLL method
+                string selectedPosition = cboFilterChucVu.SelectedItem?.ToString() ?? "Tất cả";
+                if (selectedPosition != "Tất cả" && !string.IsNullOrEmpty(selectedPosition))
+                {
+                    var filteredByPosition = nhanVienBLL.LayNhanVienTheoChucVu(selectedPosition);
+                    dsNhanVien = dsNhanVien.Where(nv => filteredByPosition.Any(fp => fp.MaNV == nv.MaNV)).ToList();
+                }
+                
+                // Get account info
+                var dsTaiKhoan = taiKhoanBLL.LayDanhSachTaiKhoan();
+                
+                // Join data
+                var staffData = from nv in dsNhanVien
+                                join tk in dsTaiKhoan on nv.MaNV equals tk.MaNV into tkGroup
+                                from tk in tkGroup.DefaultIfEmpty()
+                                select new
+                                {
+                                    MaNV = nv.MaNV,
+                                    TenNV = nv.TenNV,
+                                    GioiTinh = nv.GioiTinh ? "Nam" : "Nữ",
+                                    DienThoai = nv.DienThoai,
+                                    DiaChi = nv.DiaChi,
+                                    ChucVu = nv.ChucVu,
+                                    TenDangNhap = tk != null ? tk.TenDangNhap : "",
+                                    Quyen = tk != null ? tk.Quyen : ""
+                                };
+                
+                ControlHelper.BindDataGridView(dgvStaff, staffData.ToList());
+                
+                if (dgvStaff.Columns.Count > 0)
+                {
+                    dgvStaff.Columns["MaNV"].HeaderText = "Mã NV";
+                    dgvStaff.Columns["TenNV"].HeaderText = "Tên Nhân Viên";
+                    dgvStaff.Columns["GioiTinh"].HeaderText = "Giới Tính";
+                    dgvStaff.Columns["DienThoai"].HeaderText = "Điện Thoại";
+                    dgvStaff.Columns["DiaChi"].HeaderText = "Địa Chỉ";
+                    dgvStaff.Columns["ChucVu"].HeaderText = "Chức Vụ";
+                    dgvStaff.Columns["TenDangNhap"].HeaderText = "Tên Đăng Nhập";
+                    dgvStaff.Columns["Quyen"].HeaderText = "Quyền";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageHelper.ShowError("Lỗi lọc dữ liệu", ex.Message);
+            }
         }
         
         private void CheckPermission()
@@ -43,6 +138,13 @@ namespace QLNS.Forms
             btnSave.Enabled = isAdmin;
             btnDelete.Enabled = isAdmin;
             btnEdit.Enabled = isAdmin;
+            
+            // Advanced tab buttons
+            btnGanTaiKhoan.Enabled = isAdmin;
+            btnResetPass.Enabled = isAdmin;
+            btnKhoaTK.Enabled = isAdmin;
+            btnMoKhoaTK.Enabled = isAdmin;
+            btnXoaTK.Enabled = isAdmin;
             
             // Disable input fields for non-admin users
             txtMaNV.Enabled = isAdmin;

@@ -46,7 +46,7 @@ namespace QLNS.Forms
                 lblTotalBooks.Text = allBooks.Count.ToString();
                 lblTotalImports.Text = allImports.Count.ToString();
                 lblTotalReceipts.Text = allReceipts.Count.ToString();
-                lblTotalEmployees.Text = allEmployees.Count.ToString();
+                lblTotalEmployees.Text = $"{allEmployees.Count} (♂{nhanVienBLL.DemNhanVienTheoGioiTinh(true)}/♀{nhanVienBLL.DemNhanVienTheoGioiTinh(false)})";
                 lblTotalCustomers.Text = allCustomers.Count.ToString();
 
                 // Calculate total inventory value
@@ -122,3 +122,5 @@ namespace QLNS.Forms
         }
     }
 }
+
+

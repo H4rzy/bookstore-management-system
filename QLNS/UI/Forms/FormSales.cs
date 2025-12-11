@@ -11,7 +11,7 @@ using QLNS_UI.Common;
 
 namespace QLNS.UI.Forms
 {
-    public partial class FormSales : BorderlessForm
+    public partial class FormSales : Form
     {
         private HoaDon_BLL hoaDonBLL = new HoaDon_BLL();
         private ChiTietHoaDon_BLL chiTietBLL = new ChiTietHoaDon_BLL();
@@ -25,6 +25,7 @@ namespace QLNS.UI.Forms
         private List<SachDTO> allBooks = new List<SachDTO>();
         private decimal discountAmount = 0;
         private decimal vipDiscountPercent = 0;
+        private KhachHangDTO selectedCustomer = null; // Khách hàng đã chọn
 
         public FormSales()
         {
@@ -34,7 +35,6 @@ namespace QLNS.UI.Forms
 
         private void FormSales_Load(object sender, EventArgs e)
         {
-            LoadCustomers();
             LoadBooks();
             ResetForm();
         }
@@ -143,27 +143,106 @@ namespace QLNS.UI.Forms
 
         #region Data Loading
 
-        private void LoadCustomers()
+        /// <summary>
+        /// Tra cứu khách hàng theo Mã hoặc SĐT
+        /// </summary>
+        private void SearchCustomer(string keyword)
         {
             try
             {
-                var customers = khachHangBLL.LayDanhSachKhachHang();
-                cboCustomer.Items.Clear();
-                cboCustomer.Items.Add("-- Khách lẻ --");
-                
-                foreach (var kh in customers)
+                if (string.IsNullOrWhiteSpace(keyword))
                 {
-                    cboCustomer.Items.Add($"{kh.MaKH} - {kh.TenKH}");
+                    MessageBox.Show("Vui lòng nhập mã KH hoặc SĐT!", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
-                
-                cboCustomer.SelectedIndex = 0;
-                cboCustomer.SelectedIndexChanged += cboCustomer_SelectedIndexChanged;
+
+                var customers = khachHangBLL.LayDanhSachKhachHang();
+                var found = customers.FirstOrDefault(kh =>
+                    kh.MaKH.ToUpper().Contains(keyword.ToUpper()) ||
+                    (kh.DienThoai != null && kh.DienThoai.Contains(keyword)) ||
+                    (kh.TenKH != null && kh.TenKH.ToUpper().Contains(keyword.ToUpper())));
+
+                if (found != null)
+                {
+                    SelectCustomer(found);
+                    MessageBox.Show($"Đã tìm thấy:\n{found.TenKH}\nSĐT: {found.DienThoai}",
+                        "Tìm thấy", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCustomerSearch.Clear();
+                }
+                else
+                {
+                    MessageBox.Show($"Không tìm thấy khách hàng với: {keyword}", "Không tìm thấy",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải danh sách khách hàng: {ex.Message}", "Lỗi",
+                MessageBox.Show($"Lỗi khi tìm kiếm: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void SelectCustomer(KhachHangDTO kh)
+        {
+            selectedCustomer = kh;
+            lblSelectedCustomer.Text = $"👤 {kh.TenKH} ({kh.MaKH})";
+            lblSelectedCustomer.ForeColor = Color.FromArgb(0, 123, 255);
+
+            // Check VIP status
+            CheckVIPStatus(kh.MaKH);
+        }
+
+        private void CheckVIPStatus(string maKH)
+        {
+            try
+            {
+                if (vipBLL.KiemTraKhachHangLaVIP(maKH))
+                {
+                    var theVIP = vipBLL.LayTheVIPTheoKhachHang(maKH);
+                    if (theVIP != null && theVIP.IsActive)
+                    {
+                        vipDiscountPercent = vipBLL.TinhPhanTramGiamGia(maKH);
+                        lblSelectedCustomer.Text += $" ⭐ VIP {theVIP.HangVIP} (-{vipDiscountPercent}%)";
+                        lblSelectedCustomer.ForeColor = GetVIPRankColor(theVIP.HangVIP);
+                        ApplyVIPDiscount();
+                    }
+                }
+                else
+                {
+                    vipDiscountPercent = 0;
+                }
+                CalculateTotal();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi kiểm tra VIP: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ClearCustomer()
+        {
+            selectedCustomer = null;
+            lblSelectedCustomer.Text = "👤 Khách lẻ";
+            lblSelectedCustomer.ForeColor = Color.FromArgb(40, 167, 69);
+            vipDiscountPercent = 0;
+            txtDiscount.Clear();
+            CalculateTotal();
+        }
+
+        private void txtCustomerSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                SearchCustomer(txtCustomerSearch.Text.Trim());
+            }
+        }
+
+        private void btnClearCustomer_Click(object sender, EventArgs e)
+        {
+            ClearCustomer();
         }
 
         private void LoadBooks()
@@ -208,6 +287,90 @@ namespace QLNS.UI.Forms
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi khi tìm kiếm: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Thêm sách vào giỏ theo mã khi nhấn Enter
+        /// </summary>
+        private void txtBookCode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                AddBookByCode();
+            }
+        }
+
+        private void btnAddByCode_Click(object sender, EventArgs e)
+        {
+            AddBookByCode();
+        }
+
+        private void AddBookByCode()
+        {
+            try
+            {
+                string maSach = txtBookCode.Text.Trim().ToUpper();
+                if (string.IsNullOrEmpty(maSach))
+                {
+                    MessageBox.Show("Vui lòng nhập mã sách!", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtBookCode.Focus();
+                    return;
+                }
+
+                var sach = allBooks.FirstOrDefault(s => s.MaSach.ToUpper() == maSach);
+                if (sach == null)
+                {
+                    MessageBox.Show($"Không tìm thấy sách với mã: {maSach}", "Không tìm thấy",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtBookCode.SelectAll();
+                    txtBookCode.Focus();
+                    return;
+                }
+
+                // Check if book already in cart
+                var existingItem = cartItems.FirstOrDefault(c => c.MaSach == sach.MaSach);
+                if (existingItem != null)
+                {
+                    // Increment quantity
+                    if (existingItem.SoLuong + 1 > sach.SoLuongTon)
+                    {
+                        MessageBox.Show($"Không đủ hàng trong kho!\nTồn kho: {sach.SoLuongTon}, Trong giỏ: {existingItem.SoLuong}",
+                            "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    existingItem.SoLuong++;
+                }
+                else
+                {
+                    // Add new item
+                    if (sach.SoLuongTon <= 0)
+                    {
+                        MessageBox.Show("Sách này đã hết hàng!", "Thông báo",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    cartItems.Add(new CartItem
+                    {
+                        MaSach = sach.MaSach,
+                        TenSach = sach.TenSach,
+                        SoLuong = 1,
+                        DonGiaBan = sach.DonGiaBan,
+                        SoLuongTonKho = sach.SoLuongTon
+                    });
+                }
+
+                RefreshCart();
+                txtBookCode.Clear();
+                txtBookCode.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi thêm sách: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -383,65 +546,13 @@ namespace QLNS.UI.Forms
                 c.ThanhTien
             }).ToList();
 
+            // Apply VIP discount if customer is VIP
+            if (vipDiscountPercent > 0)
+            {
+                ApplyVIPDiscount();
+            }
+
             CalculateTotal();
-        }
-
-        private void cboCustomer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (cboCustomer.SelectedIndex <= 0)
-                {
-                    // Khách lẻ - hide VIP status
-                    if (this.Controls.ContainsKey("lblVIPStatus"))
-                    {
-                        this.Controls["lblVIPStatus"].Visible = false;
-                    }
-                    vipDiscountPercent = 0;
-                    CalculateTotal();
-                    return;
-                }
-
-                string maKH = cboCustomer.SelectedItem.ToString().Split('-')[0].Trim();
-
-                // Check VIP status
-                if (vipBLL.KiemTraKhachHangLaVIP(maKH))
-                {
-                    var theVIP = vipBLL.LayTheVIPTheoKhachHang(maKH);
-                    if (theVIP != null && theVIP.IsActive)
-                    {
-                        // Get discount percentage
-                        vipDiscountPercent = vipBLL.TinhPhanTramGiamGia(maKH);
-
-                        // Display VIP info
-                        if (this.Controls.ContainsKey("lblVIPStatus"))
-                        {
-                            var lblVIP = this.Controls["lblVIPStatus"] as Label;
-                            lblVIP.Visible = true;
-                            lblVIP.Text = $"⭐ VIP {theVIP.HangVIP} - {theVIP.DiemTichLuy:N0} điểm - Giảm {vipDiscountPercent}%";
-                            lblVIP.ForeColor = GetVIPRankColor(theVIP.HangVIP);
-                        }
-
-                        // Auto-apply VIP discount
-                        ApplyVIPDiscount();
-                    }
-                }
-                else
-                {
-                    if (this.Controls.ContainsKey("lblVIPStatus"))
-                    {
-                        this.Controls["lblVIPStatus"].Visible = false;
-                    }
-                    vipDiscountPercent = 0;
-                }
-
-                CalculateTotal();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi kiểm tra VIP: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private Color GetVIPRankColor(string rank)
@@ -587,11 +698,7 @@ namespace QLNS.UI.Forms
                 // Create Invoice
                 currentSoHD = hoaDonBLL.TaoSoHDMoi();
                 
-                string maKH = null;
-                if (cboCustomer.SelectedIndex > 0)
-                {
-                    maKH = cboCustomer.SelectedItem.ToString().Split('-')[0].Trim();
-                }
+                string maKH = selectedCustomer?.MaKH;
 
                 var hoaDon = new HoaDonDTO
                 {
@@ -602,10 +709,19 @@ namespace QLNS.UI.Forms
                     GhiChu = $"Giảm giá: {discountAmount:N0} VNĐ"
                 };
 
-                if (!hoaDonBLL.ThemHoaDon(hoaDon))
+                try
                 {
-                    MessageBox.Show("Lỗi khi tạo hóa đơn!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!hoaDonBLL.ThemHoaDon(hoaDon))
+                    {
+                        MessageBox.Show($"Lỗi khi tạo hóa đơn!\nSoHD: {currentSoHD}\nMaNV: {CurrentUser.MaNV}", "Lỗi",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                catch (Exception exHD)
+                {
+                    MessageBox.Show($"Lỗi chi tiết: {exHD.Message}\n\nSoHD: {currentSoHD}\nMaNV: {CurrentUser.MaNV}\nMaKH: {maKH ?? "NULL"}", 
+                        "Lỗi khi tạo hóa đơn", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -685,8 +801,8 @@ namespace QLNS.UI.Forms
                     try
                     {
                         // Get customer name
-                        string customerName = cboCustomer.SelectedIndex > 0 
-                            ? cboCustomer.Text 
+                        string customerName = selectedCustomer != null 
+                            ? $"{selectedCustomer.TenKH} ({selectedCustomer.MaKH})" 
                             : "Khách lẻ";
 
                         // Generate HTML
@@ -750,20 +866,16 @@ namespace QLNS.UI.Forms
             lblDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             lblEmployee.Text = $"NV: {CurrentUser.MaNV} - {CurrentUser.TenNV}";
             
-            cboCustomer.SelectedIndex = 0;
+            // Clear customer selection
+            ClearCustomer();
+            txtCustomerSearch.Clear();
             txtSearch.Clear();
-            txtDiscount.Clear();
+            txtBookCode.Clear();
             txtPayment.Clear();
             
             lblSubTotal.Text = "0 VNĐ";
             lblTotal.Text = "0 VNĐ";
             lblChange.Text = "0 VNĐ";
-            
-            vipDiscountPercent = 0;
-            if (this.Controls.ContainsKey("lblVIPStatus"))
-            {
-                this.Controls["lblVIPStatus"].Visible = false;
-            }
             
             RefreshCart();
         }
@@ -789,6 +901,11 @@ namespace QLNS.UI.Forms
         }
 
         #endregion
+
+        private void pnlTop_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
     #region Cart Item Class

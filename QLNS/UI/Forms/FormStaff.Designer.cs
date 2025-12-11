@@ -84,9 +84,17 @@
             // 
             // panelTop
             // 
+            this.cboFilterChucVu = new System.Windows.Forms.ComboBox();
+            this.cboFilterGioiTinh = new System.Windows.Forms.ComboBox();
+            this.lblFilterChucVu = new System.Windows.Forms.Label();
+            this.lblFilterGioiTinh = new System.Windows.Forms.Label();
             this.panelTop.Controls.Add(this.btnTimKiem);
             this.panelTop.Controls.Add(this.txtTimKiem);
             this.panelTop.Controls.Add(this.label1);
+            this.panelTop.Controls.Add(this.cboFilterChucVu);
+            this.panelTop.Controls.Add(this.cboFilterGioiTinh);
+            this.panelTop.Controls.Add(this.lblFilterChucVu);
+            this.panelTop.Controls.Add(this.lblFilterGioiTinh);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTop.Location = new System.Drawing.Point(13, 13);
             this.panelTop.Name = "panelTop";
@@ -95,29 +103,65 @@
             // 
             // btnTimKiem
             // 
-            this.btnTimKiem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTimKiem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(161)))), ((int)(((byte)(251)))));
             this.btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.btnTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.btnTimKiem.ForeColor = System.Drawing.Color.White;
-            this.btnTimKiem.Location = new System.Drawing.Point(850, 10);
+            this.btnTimKiem.Location = new System.Drawing.Point(320, 12);
             this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(110, 35);
+            this.btnTimKiem.Size = new System.Drawing.Size(90, 30);
             this.btnTimKiem.TabIndex = 2;
-            this.btnTimKiem.Text = "🔍 Tìm Kiếm";
+            this.btnTimKiem.Text = "🔍 Tìm";
             this.btnTimKiem.UseVisualStyleBackColor = false;
             this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // txtTimKiem
             // 
-            this.txtTimKiem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.txtTimKiem.Location = new System.Drawing.Point(120, 15);
+            this.txtTimKiem.Location = new System.Drawing.Point(80, 14);
             this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.Size = new System.Drawing.Size(720, 26);
+            this.txtTimKiem.Size = new System.Drawing.Size(230, 26);
             this.txtTimKiem.TabIndex = 1;
             this.txtTimKiem.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTimKiem_KeyPress);
+            // 
+            // lblFilterChucVu
+            // 
+            this.lblFilterChucVu.AutoSize = true;
+            this.lblFilterChucVu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.lblFilterChucVu.Location = new System.Drawing.Point(430, 18);
+            this.lblFilterChucVu.Name = "lblFilterChucVu";
+            this.lblFilterChucVu.Size = new System.Drawing.Size(68, 18);
+            this.lblFilterChucVu.Text = "Chức vụ:";
+            // 
+            // cboFilterChucVu
+            // 
+            this.cboFilterChucVu.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFilterChucVu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.cboFilterChucVu.Location = new System.Drawing.Point(505, 14);
+            this.cboFilterChucVu.Name = "cboFilterChucVu";
+            this.cboFilterChucVu.Size = new System.Drawing.Size(150, 26);
+            this.cboFilterChucVu.TabIndex = 3;
+            this.cboFilterChucVu.SelectedIndexChanged += new System.EventHandler(this.cboFilterChucVu_SelectedIndexChanged);
+            // 
+            // lblFilterGioiTinh
+            // 
+            this.lblFilterGioiTinh.AutoSize = true;
+            this.lblFilterGioiTinh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.lblFilterGioiTinh.Location = new System.Drawing.Point(675, 18);
+            this.lblFilterGioiTinh.Name = "lblFilterGioiTinh";
+            this.lblFilterGioiTinh.Size = new System.Drawing.Size(72, 18);
+            this.lblFilterGioiTinh.Text = "Giới tính:";
+            // 
+            // cboFilterGioiTinh
+            // 
+            this.cboFilterGioiTinh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFilterGioiTinh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.cboFilterGioiTinh.Items.AddRange(new object[] { "Tất cả", "Nam", "Nữ" });
+            this.cboFilterGioiTinh.Location = new System.Drawing.Point(753, 14);
+            this.cboFilterGioiTinh.Name = "cboFilterGioiTinh";
+            this.cboFilterGioiTinh.Size = new System.Drawing.Size(100, 26);
+            this.cboFilterGioiTinh.TabIndex = 4;
+            this.cboFilterGioiTinh.SelectedIndexChanged += new System.EventHandler(this.cboFilterGioiTinh_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -314,12 +358,33 @@
             // 
             // panelButtons - Now contains TabControl
             // 
-            this.panelButtons.Controls.Add(this.tabControlButtons);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelButtons.Location = new System.Drawing.Point(13, 533);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(974, 54);
             this.panelButtons.TabIndex = 3;
+            // 
+            // tabBasic
+            // 
+            this.tabBasic = new System.Windows.Forms.TabPage();
+            this.tabBasic.Location = new System.Drawing.Point(4, 25);
+            this.tabBasic.Name = "tabBasic";
+            this.tabBasic.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBasic.Size = new System.Drawing.Size(966, 25);
+            this.tabBasic.TabIndex = 0;
+            this.tabBasic.Text = "📋 Cơ Bản";
+            this.tabBasic.UseVisualStyleBackColor = true;
+            // 
+            // tabAdvanced
+            // 
+            this.tabAdvanced = new System.Windows.Forms.TabPage();
+            this.tabAdvanced.Location = new System.Drawing.Point(4, 25);
+            this.tabAdvanced.Name = "tabAdvanced";
+            this.tabAdvanced.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAdvanced.Size = new System.Drawing.Size(966, 25);
+            this.tabAdvanced.TabIndex = 1;
+            this.tabAdvanced.Text = "⚙️ Nâng Cao";
+            this.tabAdvanced.UseVisualStyleBackColor = true;
             // 
             // tabControlButtons
             // 
@@ -333,37 +398,9 @@
             this.tabControlButtons.Size = new System.Drawing.Size(974, 54);
             this.tabControlButtons.TabIndex = 0;
             // 
-            // tabBasic
+            // Add tabControlButtons to panelButtons
             // 
-            this.tabBasic = new System.Windows.Forms.TabPage();
-            this.tabBasic.Controls.Add(this.btnEdit);
-            this.tabBasic.Controls.Add(this.btnDelete);
-            this.tabBasic.Controls.Add(this.btnCancel);
-            this.tabBasic.Controls.Add(this.btnSave);
-            this.tabBasic.Controls.Add(this.btnAdd);
-            this.tabBasic.Location = new System.Drawing.Point(4, 25);
-            this.tabBasic.Name = "tabBasic";
-            this.tabBasic.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBasic.Size = new System.Drawing.Size(966, 25);
-            this.tabBasic.TabIndex = 0;
-            this.tabBasic.Text = "📋 Cơ Bản";
-            this.tabBasic.UseVisualStyleBackColor = true;
-            // 
-            // tabAdvanced
-            // 
-            this.tabAdvanced = new System.Windows.Forms.TabPage();
-            this.tabAdvanced.Controls.Add(this.btnGanTaiKhoan);
-            this.tabAdvanced.Controls.Add(this.btnResetPass);
-            this.tabAdvanced.Controls.Add(this.btnKhoaTK);
-            this.tabAdvanced.Controls.Add(this.btnMoKhoaTK);
-            this.tabAdvanced.Controls.Add(this.btnXoaTK);
-            this.tabAdvanced.Location = new System.Drawing.Point(4, 25);
-            this.tabAdvanced.Name = "tabAdvanced";
-            this.tabAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAdvanced.Size = new System.Drawing.Size(966, 25);
-            this.tabAdvanced.TabIndex = 1;
-            this.tabAdvanced.Text = "⚙️ Nâng Cao";
-            this.tabAdvanced.UseVisualStyleBackColor = true;
+            this.panelButtons.Controls.Add(this.tabControlButtons);
             // 
             // btnGanTaiKhoan
             // 
@@ -510,6 +547,22 @@
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // Add buttons to tabBasic
+            // 
+            this.tabBasic.Controls.Add(this.btnEdit);
+            this.tabBasic.Controls.Add(this.btnDelete);
+            this.tabBasic.Controls.Add(this.btnCancel);
+            this.tabBasic.Controls.Add(this.btnSave);
+            this.tabBasic.Controls.Add(this.btnAdd);
+            // 
+            // Add buttons to tabAdvanced
+            // 
+            this.tabAdvanced.Controls.Add(this.btnGanTaiKhoan);
+            this.tabAdvanced.Controls.Add(this.btnResetPass);
+            this.tabAdvanced.Controls.Add(this.btnKhoaTK);
+            this.tabAdvanced.Controls.Add(this.btnMoKhoaTK);
+            this.tabAdvanced.Controls.Add(this.btnXoaTK);
+            // 
             // FormStaff
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -562,5 +615,17 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.TabControl tabControlButtons;
+        private System.Windows.Forms.TabPage tabBasic;
+        private System.Windows.Forms.TabPage tabAdvanced;
+        private System.Windows.Forms.Button btnGanTaiKhoan;
+        private System.Windows.Forms.Button btnResetPass;
+        private System.Windows.Forms.Button btnKhoaTK;
+        private System.Windows.Forms.Button btnMoKhoaTK;
+        private System.Windows.Forms.Button btnXoaTK;
+        private System.Windows.Forms.ComboBox cboFilterChucVu;
+        private System.Windows.Forms.ComboBox cboFilterGioiTinh;
+        private System.Windows.Forms.Label lblFilterChucVu;
+        private System.Windows.Forms.Label lblFilterGioiTinh;
     }
 }

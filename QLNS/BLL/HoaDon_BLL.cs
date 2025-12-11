@@ -14,18 +14,17 @@ namespace QLNS_BLL
 
         public bool ThemHoaDon(HoaDonDTO dto)
         {
-            try
-            {
-                if (dto == null) return false;
-                if (string.IsNullOrEmpty(dto.SoHD) || string.IsNullOrEmpty(dto.MaNV))
-                    return false;
+            if (dto == null) 
+                throw new Exception("DTO is null");
+            if (string.IsNullOrEmpty(dto.SoHD)) 
+                throw new Exception("SoHD is empty");
+            if (string.IsNullOrEmpty(dto.MaNV))
+                throw new Exception("MaNV is empty");
 
-                if (dal.kiemTraTrungSo(dto.SoHD))
-                    return false;
+            if (dal.kiemTraTrungSo(dto.SoHD))
+                throw new Exception("SoHD đã tồn tại: " + dto.SoHD);
 
-                return dal.themHoaDon(dto);
-            }
-            catch { return false; }
+            return dal.themHoaDon(dto);
         }
 
         public bool XoaHoaDon(string soHD)
@@ -86,8 +85,11 @@ namespace QLNS_BLL
         {
             try
             {
-                // Format: HD + YYYYMMDDHHmmss
-                return "HD" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                // Format: HD + 8 số (từ timestamp để đảm bảo unique)
+                // Database yêu cầu CHAR(10)
+                long ticks = DateTime.Now.Ticks;
+                string suffix = (ticks % 100000000).ToString("D8"); // 8 số
+                return "HD" + suffix; // HD + 8 số = 10 ký tự
             }
             catch { return string.Empty; }
         }

@@ -59,13 +59,14 @@ namespace QLNS_DAL
         {
             if (ConnectionState.Closed == con.State)
                 con.Open();
-            string sql = "INSERT INTO HoaDon VALUES(@SoHD, @NgayBan, @MaNV, @MaKH, @GhiChu)";
+            // Chỉ định rõ tên cột để tránh lỗi số lượng cột không khớp
+            string sql = "INSERT INTO HoaDon (SoHD, NgayBan, MaNV, MaKH, GhiChu) VALUES (@SoHD, @NgayBan, @MaNV, @MaKH, @GhiChu)";
             SqlCommand cmd = new SqlCommand(sql, con);
             cmd.Parameters.AddWithValue("@SoHD", hd.SoHD);
             cmd.Parameters.AddWithValue("@NgayBan", hd.NgayBan);
             cmd.Parameters.AddWithValue("@MaNV", hd.MaNV);
             cmd.Parameters.AddWithValue("@MaKH", (object)hd.MaKH ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@GhiChu", hd.GhiChu);
+            cmd.Parameters.AddWithValue("@GhiChu", (object)hd.GhiChu ?? DBNull.Value);
             int rs = cmd.ExecuteNonQuery();
             con.Close();
             return rs > 0;

@@ -34,12 +34,17 @@ namespace QLNS.UI.Forms
             this.lblDateTime = new System.Windows.Forms.Label();
             this.lblInvoiceNumber = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cboCustomer = new System.Windows.Forms.ComboBox();
+            this.txtCustomerSearch = new System.Windows.Forms.TextBox();
+            this.lblSelectedCustomer = new System.Windows.Forms.Label();
+            this.btnClearCustomer = new System.Windows.Forms.Button();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.dgvProducts = new System.Windows.Forms.DataGridView();
             this.btnAddToCart = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtBookCode = new System.Windows.Forms.TextBox();
+            this.lblBookCode = new System.Windows.Forms.Label();
+            this.btnAddByCode = new System.Windows.Forms.Button();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.btnClearCart = new System.Windows.Forms.Button();
             this.btnRemoveFromCart = new System.Windows.Forms.Button();
@@ -94,8 +99,10 @@ namespace QLNS.UI.Forms
             this.pnlTop.Controls.Add(this.lblEmployee);
             this.pnlTop.Controls.Add(this.lblDateTime);
             this.pnlTop.Controls.Add(this.lblInvoiceNumber);
+            this.pnlTop.Controls.Add(this.lblSelectedCustomer);
+            this.pnlTop.Controls.Add(this.btnClearCustomer);
+            this.pnlTop.Controls.Add(this.txtCustomerSearch);
             this.pnlTop.Controls.Add(this.label1);
-            this.pnlTop.Controls.Add(this.cboCustomer);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTop.Location = new System.Drawing.Point(3, 3);
             this.pnlTop.Name = "pnlTop";
@@ -146,17 +153,41 @@ namespace QLNS.UI.Forms
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(85, 19);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Khách hàng:";
+            this.label1.Text = "Khách hàng (Mã/SĐT):";
             // 
-            // cboCustomer
+            // txtCustomerSearch
             // 
-            this.cboCustomer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCustomer.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.cboCustomer.FormattingEnabled = true;
-            this.cboCustomer.Location = new System.Drawing.Point(15, 40);
-            this.cboCustomer.Name = "cboCustomer";
-            this.cboCustomer.Size = new System.Drawing.Size(400, 28);
-            this.cboCustomer.TabIndex = 0;
+            this.txtCustomerSearch.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtCustomerSearch.Location = new System.Drawing.Point(15, 40);
+            this.txtCustomerSearch.Name = "txtCustomerSearch";
+            this.txtCustomerSearch.Size = new System.Drawing.Size(250, 27);
+            this.txtCustomerSearch.TabIndex = 0;
+            this.txtCustomerSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCustomerSearch_KeyPress);
+            // 
+            // lblSelectedCustomer
+            // 
+            this.lblSelectedCustomer.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblSelectedCustomer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.lblSelectedCustomer.Location = new System.Drawing.Point(280, 40);
+            this.lblSelectedCustomer.Name = "lblSelectedCustomer";
+            this.lblSelectedCustomer.Size = new System.Drawing.Size(350, 27);
+            this.lblSelectedCustomer.TabIndex = 7;
+            this.lblSelectedCustomer.Text = "👤 Khách lẻ";
+            this.lblSelectedCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnClearCustomer
+            // 
+            this.btnClearCustomer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(53)))), ((int)(((byte)(69)))));
+            this.btnClearCustomer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClearCustomer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnClearCustomer.ForeColor = System.Drawing.Color.White;
+            this.btnClearCustomer.Location = new System.Drawing.Point(640, 40);
+            this.btnClearCustomer.Name = "btnClearCustomer";
+            this.btnClearCustomer.Size = new System.Drawing.Size(80, 27);
+            this.btnClearCustomer.TabIndex = 8;
+            this.btnClearCustomer.Text = "❌ Xóa";
+            this.btnClearCustomer.UseVisualStyleBackColor = false;
+            this.btnClearCustomer.Click += new System.EventHandler(this.btnClearCustomer_Click);
             // 
             // pnlLeft
             // 
@@ -164,6 +195,9 @@ namespace QLNS.UI.Forms
             this.pnlLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlLeft.Controls.Add(this.dgvProducts);
             this.pnlLeft.Controls.Add(this.btnAddToCart);
+            this.pnlLeft.Controls.Add(this.btnAddByCode);
+            this.pnlLeft.Controls.Add(this.txtBookCode);
+            this.pnlLeft.Controls.Add(this.lblBookCode);
             this.pnlLeft.Controls.Add(this.txtSearch);
             this.pnlLeft.Controls.Add(this.label2);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -227,6 +261,42 @@ namespace QLNS.UI.Forms
             this.label2.Size = new System.Drawing.Size(145, 21);
             this.label2.TabIndex = 0;
             this.label2.Text = "🔍 Tìm kiếm sách";
+            // 
+            // lblBookCode
+            // 
+            this.lblBookCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblBookCode.AutoSize = true;
+            this.lblBookCode.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lblBookCode.Location = new System.Drawing.Point(13, 365);
+            this.lblBookCode.Name = "lblBookCode";
+            this.lblBookCode.Size = new System.Drawing.Size(60, 15);
+            this.lblBookCode.TabIndex = 4;
+            this.lblBookCode.Text = "Mã sách:";
+            // 
+            // txtBookCode
+            // 
+            this.txtBookCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtBookCode.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtBookCode.Location = new System.Drawing.Point(85, 360);
+            this.txtBookCode.Name = "txtBookCode";
+            this.txtBookCode.Size = new System.Drawing.Size(150, 27);
+            this.txtBookCode.TabIndex = 5;
+            this.txtBookCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBookCode_KeyPress);
+            // 
+            // btnAddByCode
+            // 
+            this.btnAddByCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddByCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(123)))), ((int)(((byte)(255)))));
+            this.btnAddByCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddByCode.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnAddByCode.ForeColor = System.Drawing.Color.White;
+            this.btnAddByCode.Location = new System.Drawing.Point(245, 360);
+            this.btnAddByCode.Name = "btnAddByCode";
+            this.btnAddByCode.Size = new System.Drawing.Size(100, 27);
+            this.btnAddByCode.TabIndex = 6;
+            this.btnAddByCode.Text = "➕ Thêm";
+            this.btnAddByCode.UseVisualStyleBackColor = false;
+            this.btnAddByCode.Click += new System.EventHandler(this.btnAddByCode_Click);
             // 
             // pnlRight
             // 
@@ -491,7 +561,6 @@ namespace QLNS.UI.Forms
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Panel pnlBottom;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cboCustomer;
         private System.Windows.Forms.Label lblInvoiceNumber;
         private System.Windows.Forms.Label lblEmployee;
         private System.Windows.Forms.Label lblDateTime;
@@ -515,5 +584,11 @@ namespace QLNS.UI.Forms
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btnCompleteSale;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox txtCustomerSearch;
+        private System.Windows.Forms.Label lblSelectedCustomer;
+        private System.Windows.Forms.Button btnClearCustomer;
+        private System.Windows.Forms.TextBox txtBookCode;
+        private System.Windows.Forms.Label lblBookCode;
+        private System.Windows.Forms.Button btnAddByCode;
     }
 }
