@@ -31,6 +31,7 @@ namespace QLNS.Forms
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panelNav = new System.Windows.Forms.Panel();
             this.btnReceiptDetails = new FontAwesome.Sharp.IconButton();
+            this.btnNewSale = new FontAwesome.Sharp.IconButton();
             this.btnReceiptList = new FontAwesome.Sharp.IconButton();
             this.panelContent = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
@@ -56,6 +57,7 @@ namespace QLNS.Forms
             // 
             this.panelNav.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(68)))));
             this.panelNav.Controls.Add(this.btnReceiptDetails);
+            this.panelNav.Controls.Add(this.btnNewSale);
             this.panelNav.Controls.Add(this.btnReceiptList);
             this.panelNav.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNav.Location = new System.Drawing.Point(0, 0);
@@ -63,6 +65,29 @@ namespace QLNS.Forms
             this.panelNav.Name = "panelNav";
             this.panelNav.Size = new System.Drawing.Size(1400, 60);
             this.panelNav.TabIndex = 0;
+            // 
+            // btnNewSale
+            // 
+            this.btnNewSale.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnNewSale.FlatAppearance.BorderSize = 0;
+            this.btnNewSale.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewSale.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewSale.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnNewSale.IconChar = FontAwesome.Sharp.IconChar.CashRegister;
+            this.btnNewSale.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnNewSale.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnNewSale.IconSize = 32;
+            this.btnNewSale.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNewSale.Location = new System.Drawing.Point(362, 0);
+            this.btnNewSale.Name = "btnNewSale";
+            this.btnNewSale.Padding = new System.Windows.Forms.Padding(10, 0, 20, 0);
+            this.btnNewSale.Size = new System.Drawing.Size(250, 60);
+            this.btnNewSale.TabIndex = 2;
+            this.btnNewSale.Text = "🛒 BÁN HÀNG";
+            this.btnNewSale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNewSale.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnNewSale.UseVisualStyleBackColor = true;
+            this.btnNewSale.Click += new System.EventHandler(this.btnNewSale_Click);
             // 
             // btnReceiptDetails
             // 
@@ -76,7 +101,7 @@ namespace QLNS.Forms
             this.btnReceiptDetails.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnReceiptDetails.IconSize = 32;
             this.btnReceiptDetails.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReceiptDetails.Location = new System.Drawing.Point(362, 0);
+            this.btnReceiptDetails.Location = new System.Drawing.Point(612, 0);
             this.btnReceiptDetails.Name = "btnReceiptDetails";
             this.btnReceiptDetails.Padding = new System.Windows.Forms.Padding(10, 0, 20, 0);
             this.btnReceiptDetails.Size = new System.Drawing.Size(328, 60);
@@ -139,6 +164,7 @@ namespace QLNS.Forms
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panelNav;
         private FontAwesome.Sharp.IconButton btnReceiptList;
+        private FontAwesome.Sharp.IconButton btnNewSale;
         private FontAwesome.Sharp.IconButton btnReceiptDetails;
         private System.Windows.Forms.Panel panelContent;
     }

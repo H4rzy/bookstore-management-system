@@ -82,6 +82,21 @@ namespace QLNS_BLL
             catch { return false; }
         }
 
+        // Overload for simple password change (already verified old password)
+        public bool DoiMatKhau(string username, string matKhauMoi)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(matKhauMoi))
+                    return false;
+
+                string mkMoiMaHoa = MaHoaPassword(matKhauMoi);
+                return dal.doiMatKhau(username, mkMoiMaHoa);
+            }
+            catch { return false; }
+        }
+
+
         public bool XoaTaiKhoan(string username)
         {
             try
@@ -117,6 +132,241 @@ namespace QLNS_BLL
                 return dal.capNhatTaiKhoan(dto);
             }
             catch { return false; }
+        }
+
+        /// <summary>
+        /// Gán tài khoản cho nhân viên (SF004.05)
+        /// </summary>
+        public bool GanTaiKhoanChoNhanVien(string maNV, string tenDangNhap, string matKhau, string maRole, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            try
+            {
+                if (string.IsNullOrEmpty(maNV) || string.IsNullOrEmpty(tenDangNhap) || string.IsNullOrEmpty(matKhau))
+                {
+                    errorMessage = "Vui lòng điền đầy đủ thông tin!";
+                    return false;
+                }
+
+                var existingAccount = dal.LayTaiKhoanTheoMaNV(maNV);
+                if (existingAccount != null)
+                {
+                    errorMessage = "Nhân viên này đã có tài khoản: " + existingAccount.TenDangNhap;
+                    return false;
+                }
+
+                if (dal.kiemTraTrungTenDangNhap(tenDangNhap))
+                {
+                    errorMessage = "Tên đăng nhập đã tồn tại!";
+                    return false;
+                }
+
+                var newAccount = new TaiKhoanDTO
+                {
+                    TenDangNhap = tenDangNhap,
+                    MatKhau = MaHoaPassword(matKhau),
+                    MaNV = maNV,
+                    MaRole = maRole,
+                    TrangThai = true
+                };
+
+                bool result = dal.themTaiKhoan(newAccount);
+                
+                if (result)
+                {
+                    try
+                    {
+                        AuditLogDAL auditDal = new AuditLogDAL();
+                        auditDal.ThemLogHoatDong(new AuditLogDTO { 
+                        MaLog = Guid.NewGuid().ToString(), 
+                        TenDangNhap = QLNS.CurrentUser.Username, 
+                        HanhDong = $"Gán tài khoản '{tenDangNhap}' cho nhân viên {maNV}", 
+                        ThoiGian = DateTime.Now });
+                    }
+                    catch { }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Lỗi: " + ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Khoá tài khoản (SF004.08)
+        /// </summary>
+        public bool KhoaTaiKhoan(string tenDangNhap, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            try
+            {
+                if (string.IsNullOrEmpty(tenDangNhap))
+                {
+                    errorMessage = "Tên đăng nhập không được rỗng!";
+                    return false;
+                }
+
+                if (tenDangNhap.ToLower() == "admin")
+                {
+                    errorMessage = "Không thể khoá tài khoản admin!";
+                    return false;
+                }
+
+                var account = dal.layTaiKhoanTheoTenDangNhap(tenDangNhap);
+                if (account == null)
+                {
+                    errorMessage = "Không tìm thấy tài khoản!";
+                    return false;
+                }
+
+                bool result = dal.KhoaTaiKhoan(tenDangNhap);
+                
+                if (result)
+                {
+                    try
+                    {
+                        AuditLogDAL auditDal = new AuditLogDAL();
+                        auditDal.ThemLogHoatDong(new AuditLogDTO { 
+                        MaLog = Guid.NewGuid().ToString(), 
+                        TenDangNhap = QLNS.CurrentUser.Username, 
+                        HanhDong = $"Khoá tài khoản: {tenDangNhap}", 
+                        ThoiGian = DateTime.Now });
+                    }
+                    catch { }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Lỗi: " + ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Mở khoá tài khoản (SF004.09)
+        /// </summary>
+        public bool MoKhoaTaiKhoan(string tenDangNhap, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            try
+            {
+                if (string.IsNullOrEmpty(tenDangNhap))
+                {
+                    errorMessage = "Tên đăng nhập không được rỗng!";
+                    return false;
+                }
+
+                var account = dal.layTaiKhoanTheoTenDangNhap(tenDangNhap);
+                if (account == null)
+                {
+                    errorMessage = "Không tìm thấy tài khoản!";
+                    return false;
+                }
+
+                bool result = dal.MoKhoaTaiKhoan(tenDangNhap);
+                
+                if (result)
+                {
+                    try
+                    {
+                        AuditLogDAL auditDal = new AuditLogDAL();
+                        auditDal.ThemLogHoatDong(new AuditLogDTO { 
+                        MaLog = Guid.NewGuid().ToString(), 
+                        TenDangNhap = QLNS.CurrentUser.Username, 
+                        HanhDong = $"Mở khoá tài khoản: {tenDangNhap}", 
+                        ThoiGian = DateTime.Now });
+                    }
+                    catch { }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Lỗi: " + ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Reset mật khẩu (SF004.07, SF008.02)
+        /// </summary>
+        public string ResetMatKhau(string tenDangNhap, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            try
+            {
+                if (string.IsNullOrEmpty(tenDangNhap))
+                {
+                    errorMessage = "Tên đăng nhập không được rỗng!";
+                    return null;
+                }
+
+                var account = dal.layTaiKhoanTheoTenDangNhap(tenDangNhap);
+                if (account == null)
+                {
+                    errorMessage = "Không tìm thấy tài khoản!";
+                    return null;
+                }
+
+                string newPassword = GenerateRandomPassword(8);
+                string hashedPassword = MaHoaPassword(newPassword);
+
+                bool result = dal.ResetMatKhau(tenDangNhap, hashedPassword);
+                
+                if (result)
+                {
+                    try
+                    {
+                        AuditLogDAL auditDal = new AuditLogDAL();
+                        auditDal.ThemLogHoatDong(new AuditLogDTO { 
+                        MaLog = Guid.NewGuid().ToString(), 
+                        TenDangNhap = QLNS.CurrentUser.Username, 
+                        HanhDong = $"Reset mật khẩu cho: {tenDangNhap}", 
+                        ThoiGian = DateTime.Now });
+                    }
+                    catch { }
+
+                    return newPassword;
+                }
+
+                errorMessage = "Không thể reset mật khẩu!";
+                return null;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "Lỗi: " + ex.Message;
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Lấy tài khoản của nhân viên
+        /// </summary>
+        public TaiKhoanDTO LayTaiKhoanCuaNhanVien(string maNV)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(maNV)) return null;
+                return dal.LayTaiKhoanTheoMaNV(maNV);
+            }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// Tạo mật khẩu ngẫu nhiên
+        /// </summary>
+        private string GenerateRandomPassword(int length)
+        {
+            const string chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

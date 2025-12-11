@@ -51,11 +51,16 @@ namespace QLNS_BLL
                 SachDAL sachDAL = new SachDAL();
                 var dsSach = sachDAL.laySachTheoNXB(maNXB);
                 if (dsSach != null && dsSach.Count > 0)
-                    return false;
+                {
+                    throw new Exception($"Không thể xóa NXB vì còn {dsSach.Count} sách thuộc NXB này!\nVui lòng xóa hoặc chuyển các sách sang NXB khác trước.");
+                }
 
                 return dal.xoaNhaXuatBan(maNXB);
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi xóa NXB: {ex.Message}");
+            }
         }
 
         public List<NhaXuatBanDTO> LayDanhSachNhaXuatBan()

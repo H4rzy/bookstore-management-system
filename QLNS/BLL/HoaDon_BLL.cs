@@ -69,6 +69,29 @@ namespace QLNS_BLL
             catch { return null; }
         }
 
+        public bool CapNhatHoaDon(HoaDonDTO dto)
+        {
+            try
+            {
+                if (dto == null) return false;
+                if (string.IsNullOrEmpty(dto.SoHD) || string.IsNullOrEmpty(dto.MaNV))
+                    return false;
+
+                return dal.capNhatHoaDon(dto);
+            }
+            catch { return false; }
+        }
+
+        public string TaoSoHDMoi()
+        {
+            try
+            {
+                // Format: HD + YYYYMMDDHHmmss
+                return "HD" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            }
+            catch { return string.Empty; }
+        }
+
         public List<HoaDonDTO> LayHoaDonTheoKhachHang(string maKH)
         {
             try

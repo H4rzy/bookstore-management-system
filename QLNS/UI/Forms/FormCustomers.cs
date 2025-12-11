@@ -265,5 +265,7 @@ namespace QLNS.UI.Forms
                 MessageHelper.ShowError("Lỗi mở lịch sử mua hàng", ex.Message);
             }
         }
+
+
     }
 }

@@ -51,7 +51,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.tableLayoutMain.Controls.Add(this.dgvPhieuNhap, 0, 3);
             this.tableLayoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutMain.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutMain.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutMain.Name = "tableLayoutMain";
             this.tableLayoutMain.RowCount = 4;
             this.tableLayoutMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
@@ -82,7 +82,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.tableLayoutFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
-            this.tableLayoutFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
+            this.tableLayoutFilter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 148F));
             this.tableLayoutFilter.Controls.Add(this.lblSearch, 0, 0);
             this.tableLayoutFilter.Controls.Add(this.txtSearch, 1, 0);
             this.tableLayoutFilter.Controls.Add(this.lblNhanVien, 0, 1);
@@ -95,7 +95,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.tableLayoutFilter.Controls.Add(this.btnRefresh, 5, 0);
             this.tableLayoutFilter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutFilter.Location = new System.Drawing.Point(13, 12);
-            this.tableLayoutFilter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutFilter.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutFilter.Name = "tableLayoutFilter";
             this.tableLayoutFilter.RowCount = 2;
             this.tableLayoutFilter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -120,7 +120,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.txtSearch.Location = new System.Drawing.Point(164, 8);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(4);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(605, 29);
             this.txtSearch.TabIndex = 1;
@@ -143,8 +143,8 @@ namespace QLNS.UI.Forms.ImportDetails
             this.cboNhanVien.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNhanVien.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.cboNhanVien.FormattingEnabled = true;
-            this.cboNhanVien.Location = new System.Drawing.Point(164, 55);
-            this.cboNhanVien.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cboNhanVien.Location = new System.Drawing.Point(164, 54);
+            this.cboNhanVien.Margin = new System.Windows.Forms.Padding(4);
             this.cboNhanVien.Name = "cboNhanVien";
             this.cboNhanVien.Size = new System.Drawing.Size(605, 29);
             this.cboNhanVien.TabIndex = 3;
@@ -168,7 +168,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.dtpStartDate.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpStartDate.Location = new System.Drawing.Point(937, 8);
-            this.dtpStartDate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpStartDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtpStartDate.Name = "dtpStartDate";
             this.dtpStartDate.Size = new System.Drawing.Size(605, 29);
             this.dtpStartDate.TabIndex = 5;
@@ -192,7 +192,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.dtpEndDate.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpEndDate.Location = new System.Drawing.Point(937, 55);
-            this.dtpEndDate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dtpEndDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtpEndDate.Name = "dtpEndDate";
             this.dtpEndDate.Size = new System.Drawing.Size(605, 29);
             this.dtpEndDate.TabIndex = 7;
@@ -205,7 +205,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.btnSearch.ForeColor = System.Drawing.Color.White;
             this.btnSearch.Location = new System.Drawing.Point(1553, 4);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.tableLayoutFilter.SetRowSpan(this.btnSearch, 2);
             this.btnSearch.Size = new System.Drawing.Size(133, 85);
@@ -222,7 +222,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
             this.btnRefresh.Location = new System.Drawing.Point(1700, 4);
-            this.btnRefresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(4);
             this.btnRefresh.Name = "btnRefresh";
             this.tableLayoutFilter.SetRowSpan(this.btnRefresh, 2);
             this.btnRefresh.Size = new System.Drawing.Size(133, 85);
@@ -252,7 +252,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnAdd.ForeColor = System.Drawing.Color.White;
             this.btnAdd.Location = new System.Drawing.Point(13, 10);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(133, 43);
             this.btnAdd.TabIndex = 0;
@@ -267,7 +267,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.btnEdit.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnEdit.ForeColor = System.Drawing.Color.Black;
             this.btnEdit.Location = new System.Drawing.Point(160, 10);
-            this.btnEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(4);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(133, 43);
             this.btnEdit.TabIndex = 1;
@@ -282,7 +282,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnDelete.ForeColor = System.Drawing.Color.White;
             this.btnDelete.Location = new System.Drawing.Point(307, 10);
-            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(133, 43);
             this.btnDelete.TabIndex = 2;
@@ -299,7 +299,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.dgvPhieuNhap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPhieuNhap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPhieuNhap.Location = new System.Drawing.Point(4, 192);
-            this.dgvPhieuNhap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvPhieuNhap.Margin = new System.Windows.Forms.Padding(4);
             this.dgvPhieuNhap.MultiSelect = false;
             this.dgvPhieuNhap.Name = "dgvPhieuNhap";
             this.dgvPhieuNhap.ReadOnly = true;
@@ -315,7 +315,7 @@ namespace QLNS.UI.Forms.ImportDetails
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1867, 985);
             this.Controls.Add(this.tableLayoutMain);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormImportList";
             this.Text = "Danh sách phiếu nhập";
             this.Load += new System.EventHandler(this.FormImportList_Load);

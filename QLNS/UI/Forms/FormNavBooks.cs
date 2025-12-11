@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
+using QLNS.UI.Forms;
 using QLNS.UI.Forms.BookDetails;
 
 namespace QLNS.Forms

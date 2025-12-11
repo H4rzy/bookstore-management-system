@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
+using QLNS.UI.Forms;
 using QLNS.UI.Forms.ReceiptDetails;
 
 namespace QLNS.Forms
@@ -80,6 +81,12 @@ namespace QLNS.Forms
         {
             ActivateButton(sender, Color.FromArgb(220, 53, 69));
             OpenChildForm(new FormReceiptList());
+        }
+
+        private void btnNewSale_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, Color.FromArgb(40, 167, 69));
+            OpenChildForm(new FormSales());
         }
 
         private void btnReceiptDetails_Click(object sender, EventArgs e)

@@ -18,7 +18,7 @@ using Color = System.Drawing.Color;
 
 namespace QLNS
 {
-    public partial class Form1 : Form
+    public partial class Form1 : BorderlessForm
     {
         //Fields
         private IconButton currentBtn;
@@ -113,7 +113,7 @@ namespace QLNS
         {
             if (!CheckAndLogPermission("SF003", "Quản lý Khách Hàng")) return;
             ActivateButton(sender, RGBColors.color6);
-            OpenChildForm(new FormCustomers(), sender);
+            OpenChildForm(new FormNavCustomer(), sender);
         }
 
         private void iconButton4_Click(object sender, EventArgs e)

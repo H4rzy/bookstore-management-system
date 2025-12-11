@@ -16,6 +16,7 @@ namespace QLNS_DTO
         public decimal DonGiaNhap { get; set; }
         public decimal DonGiaBan { get; set; }
         public int SoLuongTon { get; set; }
+        public string GhiChu { get; set; }
 
         public SachDTO(string maSach, string tenSach, string maTheLoai, string maNXB, string tacGia, decimal donGiaNhap, decimal donGiaBan, int soLuongTon)
         {

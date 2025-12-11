@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLNS.UI.Forms;
 using QLNS_BLL;
 using QLNS_DTO;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -363,6 +364,152 @@ namespace QLNS.UI.Forms.BookDetails
             txtMaSach.Focus();
             isEditMode = false;
             btnLuu.Text = "💾 Lưu";
+        }
+
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.Title = "Chọn file Excel để Import";
+                    ofd.Filter = "CSV files (*.csv)|*.csv|Excel files (*.xlsx;*.xls)|*.xlsx;*.xls|All files (*.*)|*.*";
+                    ofd.FilterIndex = 1;
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        string filePath = ofd.FileName;
+                        int imported = 0;
+                        int updated = 0;
+                        int failed = 0;
+
+                        // Read CSV file
+                        string[] lines = File.ReadAllLines(filePath, Encoding.UTF8);
+                        
+                        if (lines.Length < 2)
+                        {
+                            MessageHelper.ShowWarning("File rỗng hoặc không có dữ liệu!");
+                            return;
+                        }
+
+                        // Skip header row (first line)
+                        for (int i = 1; i < lines.Length; i++)
+                        {
+                            string line = lines[i];
+                            if (string.IsNullOrWhiteSpace(line)) continue;
+
+                            string[] cols = line.Split(',');
+                            
+                            // Expected format: MaSach,TenSach,TacGia,MaTheLoai,MaNXB,DonGiaNhap,DonGiaBan,SoLuongTon
+                            if (cols.Length < 8)
+                            {
+                                failed++;
+                                continue;
+                            }
+
+                            try
+                            {
+                                SachDTO sach = new SachDTO
+                                {
+                                    MaSach = cols[0].Trim().Trim('"'),
+                                    TenSach = cols[1].Trim().Trim('"'),
+                                    TacGia = cols[2].Trim().Trim('"'),
+                                    MaTheLoai = cols[3].Trim().Trim('"'),
+                                    MaNXB = cols[4].Trim().Trim('"'),
+                                    DonGiaNhap = decimal.Parse(cols[5].Trim().Trim('"')),
+                                    DonGiaBan = decimal.Parse(cols[6].Trim().Trim('"')),
+                                    SoLuongTon = int.Parse(cols[7].Trim().Trim('"'))
+                                };
+
+                                // Check if book exists
+                                var existing = sachBLL.LaySachTheoMa(sach.MaSach);
+                                if (existing != null)
+                                {
+                                    if (sachBLL.CapNhatSach(sach))
+                                        updated++;
+                                    else
+                                        failed++;
+                                }
+                                else
+                                {
+                                    if (sachBLL.ThemSach(sach))
+                                        imported++;
+                                    else
+                                        failed++;
+                                }
+                            }
+                            catch
+                            {
+                                failed++;
+                            }
+                        }
+
+                        LoadData();
+                        MessageHelper.ShowSuccess($"Import hoàn tất!\n\n✅ Thêm mới: {imported} sách\n🔄 Cập nhật: {updated} sách\n❌ Lỗi: {failed} dòng");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageHelper.ShowError("Lỗi Import", ex.Message);
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvSach.Rows.Count == 0)
+                {
+                    MessageHelper.ShowWarning("Không có dữ liệu để xuất!");
+                    return;
+                }
+
+                using (SaveFileDialog sfd = new SaveFileDialog())
+                {
+                    sfd.Title = "Lưu file Excel";
+                    sfd.Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*";
+                    sfd.FilterIndex = 1;
+                    sfd.FileName = $"DanhSachSach_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        // Write header
+                        sb.AppendLine("MaSach,TenSach,TacGia,MaTheLoai,MaNXB,DonGiaNhap,DonGiaBan,SoLuongTon");
+
+                        // Write data rows
+                        var dsSach = FormDataHelper.LoadTatCaSach();
+                        
+                        // Apply current filter
+                        if (!string.IsNullOrEmpty(selectedTheLoai))
+                            dsSach = dsSach.Where(s => s.MaTheLoai == selectedTheLoai).ToList();
+                        if (!string.IsNullOrEmpty(selectedNXB))
+                            dsSach = dsSach.Where(s => s.MaNXB == selectedNXB).ToList();
+
+                        foreach (var sach in dsSach)
+                        {
+                            sb.AppendLine($"\"{sach.MaSach}\",\"{sach.TenSach}\",\"{sach.TacGia}\",\"{sach.MaTheLoai}\",\"{sach.MaNXB}\",{sach.DonGiaNhap},{sach.DonGiaBan},{sach.SoLuongTon}");
+                        }
+
+                        File.WriteAllText(sfd.FileName, sb.ToString(), Encoding.UTF8);
+                        
+                        MessageHelper.ShowSuccess($"Export thành công!\n\n📁 File: {Path.GetFileName(sfd.FileName)}\n📊 Số sách: {dsSach.Count}");
+
+                        // Open folder containing the file
+                        if (MessageBox.Show("Bạn có muốn mở thư mục chứa file?", "Mở thư mục", 
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{sfd.FileName}\"");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageHelper.ShowError("Lỗi Export", ex.Message);
+            }
         }
     }
 }

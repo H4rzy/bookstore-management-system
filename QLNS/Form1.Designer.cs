@@ -39,11 +39,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnHome = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.lblTitleChildForm = new System.Windows.Forms.Label();
+            this.iconCurrentChildForm = new FontAwesome.Sharp.IconPictureBox();
             this.btnMinimize = new FontAwesome.Sharp.IconButton();
             this.BtnMaximize = new FontAwesome.Sharp.IconButton();
             this.btnClose = new FontAwesome.Sharp.IconButton();
-            this.lblTitleChildForm = new System.Windows.Forms.Label();
-            this.iconCurrentChildForm = new FontAwesome.Sharp.IconPictureBox();
             this.panelShadow = new System.Windows.Forms.Panel();
             this.panelDesktop = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -250,9 +250,6 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
-            this.panel3.Controls.Add(this.btnMinimize);
-            this.panel3.Controls.Add(this.BtnMaximize);
-            this.panel3.Controls.Add(this.btnClose);
             this.panel3.Controls.Add(this.lblTitleChildForm);
             this.panel3.Controls.Add(this.iconCurrentChildForm);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
@@ -261,6 +258,31 @@
             this.panel3.Size = new System.Drawing.Size(829, 45);
             this.panel3.TabIndex = 1;
             this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseDown);
+            this.panel3.Controls.SetChildIndex(this.iconCurrentChildForm, 0);
+            this.panel3.Controls.SetChildIndex(this.lblTitleChildForm, 0);
+            // 
+            // lblTitleChildForm
+            // 
+            this.lblTitleChildForm.AutoSize = true;
+            this.lblTitleChildForm.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblTitleChildForm.Location = new System.Drawing.Point(55, 17);
+            this.lblTitleChildForm.Name = "lblTitleChildForm";
+            this.lblTitleChildForm.Size = new System.Drawing.Size(44, 16);
+            this.lblTitleChildForm.TabIndex = 1;
+            this.lblTitleChildForm.Text = "Home";
+            // 
+            // iconCurrentChildForm
+            // 
+            this.iconCurrentChildForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
+            this.iconCurrentChildForm.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.iconCurrentChildForm.IconChar = FontAwesome.Sharp.IconChar.House;
+            this.iconCurrentChildForm.IconColor = System.Drawing.SystemColors.MenuHighlight;
+            this.iconCurrentChildForm.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.iconCurrentChildForm.Location = new System.Drawing.Point(17, 11);
+            this.iconCurrentChildForm.Name = "iconCurrentChildForm";
+            this.iconCurrentChildForm.Size = new System.Drawing.Size(32, 32);
+            this.iconCurrentChildForm.TabIndex = 0;
+            this.iconCurrentChildForm.TabStop = false;
             // 
             // btnMinimize
             // 
@@ -313,29 +335,6 @@
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // lblTitleChildForm
-            // 
-            this.lblTitleChildForm.AutoSize = true;
-            this.lblTitleChildForm.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblTitleChildForm.Location = new System.Drawing.Point(55, 17);
-            this.lblTitleChildForm.Name = "lblTitleChildForm";
-            this.lblTitleChildForm.Size = new System.Drawing.Size(44, 16);
-            this.lblTitleChildForm.TabIndex = 1;
-            this.lblTitleChildForm.Text = "Home";
-            // 
-            // iconCurrentChildForm
-            // 
-            this.iconCurrentChildForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
-            this.iconCurrentChildForm.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.iconCurrentChildForm.IconChar = FontAwesome.Sharp.IconChar.House;
-            this.iconCurrentChildForm.IconColor = System.Drawing.SystemColors.MenuHighlight;
-            this.iconCurrentChildForm.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconCurrentChildForm.Location = new System.Drawing.Point(17, 11);
-            this.iconCurrentChildForm.Name = "iconCurrentChildForm";
-            this.iconCurrentChildForm.Size = new System.Drawing.Size(32, 32);
-            this.iconCurrentChildForm.TabIndex = 0;
-            this.iconCurrentChildForm.TabStop = false;
-            // 
             // panelShadow
             // 
             this.panelShadow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(24)))), ((int)(((byte)(58)))));
@@ -379,6 +378,10 @@
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Controls.SetChildIndex(this.panel1, 0);
+            this.Controls.SetChildIndex(this.panel3, 0);
+            this.Controls.SetChildIndex(this.panelShadow, 0);
+            this.Controls.SetChildIndex(this.panelDesktop, 0);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnHome)).EndInit();

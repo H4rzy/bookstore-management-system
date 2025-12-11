@@ -181,5 +181,121 @@ namespace QLNS_DAL
             }
             return result;
         }
+
+        /// <summary>
+        /// Khoá tài khoản (set TrangThai = 0)
+        /// </summary>
+        public bool KhoaTaiKhoan(string tenDangNhap)
+        {
+            try
+            {
+                if (ConnectionState.Closed == con.State)
+                    con.Open();
+                string sql = "UPDATE TaiKhoan SET TrangThai = 0 WHERE TenDangNhap = @TenDangNhap";
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@TenDangNhap", tenDangNhap);
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in KhoaTaiKhoan: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Mở khoá tài khoản (set TrangThai = 1)
+        /// </summary>
+        public bool MoKhoaTaiKhoan(string tenDangNhap)
+        {
+            try
+            {
+                if (ConnectionState.Closed == con.State)
+                    con.Open();
+                string sql = "UPDATE TaiKhoan SET TrangThai = 1 WHERE TenDangNhap = @TenDangNhap";
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@TenDangNhap", tenDangNhap);
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in MoKhoaTaiKhoan: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Reset mật khẩu (admin reset for user)
+        /// </summary>
+        public bool ResetMatKhau(string tenDangNhap, string matKhauMoi)
+        {
+            try
+            {
+                if (ConnectionState.Closed == con.State)
+                    con.Open();
+                string sql = "UPDATE TaiKhoan SET MatKhau = @MatKhauMoi WHERE TenDangNhap = @TenDangNhap";
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@TenDangNhap", tenDangNhap);
+                cmd.Parameters.AddWithValue("@MatKhauMoi", matKhauMoi);
+                int rs = cmd.ExecuteNonQuery();
+                return rs > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in ResetMatKhau: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
+            }
+        }
+
+        /// <summary>
+        /// Lấy tài khoản theo mã nhân viên
+        /// </summary>
+        public TaiKhoanDTO LayTaiKhoanTheoMaNV(string maNV)
+        {
+            TaiKhoanDTO tk = null;
+            try
+            {
+                if (ConnectionState.Closed == con.State)
+                    con.Open();
+                string sql = "SELECT * FROM TaiKhoan WHERE MaNV = @MaNV";
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@MaNV", maNV);
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.Read())
+                {
+                    tk = new TaiKhoanDTO();
+                    tk.TenDangNhap = rd["TenDangNhap"].ToString();
+                    tk.MatKhau = rd["MatKhau"].ToString();
+                    tk.MaNV = rd["MaNV"].ToString();
+                    tk.MaRole = rd["MaRole"].ToString();
+                    try { tk.TrangThai = rd["TrangThai"] != DBNull.Value ? Convert.ToBoolean(rd["TrangThai"]) : true; }
+                    catch { tk.TrangThai = true; }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in LayTaiKhoanTheoMaNV: " + ex.Message);
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                    con.Close();
+            }
+            return tk;
+        }
     }
 }

@@ -71,6 +71,22 @@ namespace QLNS_DAL
             return rs > 0;
         }
 
+        public bool capNhatHoaDon(HoaDonDTO hd)
+        {
+            if (ConnectionState.Closed == con.State)
+                con.Open();
+            string sql = "UPDATE HoaDon SET NgayBan = @NgayBan, MaNV = @MaNV, MaKH = @MaKH, GhiChu = @GhiChu WHERE SoHD = @SoHD";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@SoHD", hd.SoHD);
+            cmd.Parameters.AddWithValue("@NgayBan", hd.NgayBan);
+            cmd.Parameters.AddWithValue("@MaNV", hd.MaNV);
+            cmd.Parameters.AddWithValue("@MaKH", (object)hd.MaKH ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@GhiChu", hd.GhiChu);
+            int rs = cmd.ExecuteNonQuery();
+            con.Close();
+            return rs > 0;
+        }
+
         public bool xoaHoaDon(string soHD)
         {
             if (ConnectionState.Closed == con.State)

@@ -77,6 +77,35 @@ namespace QLNS_BLL
             catch { return 0; }
         }
 
+        public bool XoaTatCaChiTiet(string soHD)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(soHD)) return false;
+
+                // Lấy danh sách chi tiết để cộng lại tồn kho
+                var dsChiTiet = dal.layDanhSachChiTietTheoSoHD(soHD);
+
+                // Cộng lại tồn kho cho từng sách
+                Sach_BLL sachBLL = new Sach_BLL();
+                foreach (var chiTiet in dsChiTiet)
+                {
+                    if (!sachBLL.CapNhatTonKho(chiTiet.MaSach, chiTiet.SoLuong, true)) // true = cộng lại
+                        return false;
+                }
+
+                // Xóa từng chi tiết
+                foreach (var chiTiet in dsChiTiet)
+                {
+                    if (!dal.xoaChiTietHoaDon(soHD, chiTiet.MaSach))
+                        return false;
+                }
+
+                return true;
+            }
+            catch { return false; }
+        }
+
         public System.Data.DataTable ThongKeSachBanChay(int top)
         {
             try

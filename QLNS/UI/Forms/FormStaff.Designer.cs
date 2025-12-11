@@ -312,29 +312,143 @@
             this.txtChucVu.Size = new System.Drawing.Size(351, 26);
             this.txtChucVu.TabIndex = 11;
             // 
-            // panelButtons
+            // panelButtons - Now contains TabControl
             // 
-            this.panelButtons.Controls.Add(this.btnEdit);
-            this.panelButtons.Controls.Add(this.btnDelete);
-            this.panelButtons.Controls.Add(this.btnCancel);
-            this.panelButtons.Controls.Add(this.btnSave);
-            this.panelButtons.Controls.Add(this.btnAdd);
+            this.panelButtons.Controls.Add(this.tabControlButtons);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelButtons.Location = new System.Drawing.Point(13, 533);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(974, 54);
             this.panelButtons.TabIndex = 3;
             // 
+            // tabControlButtons
+            // 
+            this.tabControlButtons = new System.Windows.Forms.TabControl();
+            this.tabControlButtons.Controls.Add(this.tabBasic);
+            this.tabControlButtons.Controls.Add(this.tabAdvanced);
+            this.tabControlButtons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlButtons.Location = new System.Drawing.Point(0, 0);
+            this.tabControlButtons.Name = "tabControlButtons";
+            this.tabControlButtons.SelectedIndex = 0;
+            this.tabControlButtons.Size = new System.Drawing.Size(974, 54);
+            this.tabControlButtons.TabIndex = 0;
+            // 
+            // tabBasic
+            // 
+            this.tabBasic = new System.Windows.Forms.TabPage();
+            this.tabBasic.Controls.Add(this.btnEdit);
+            this.tabBasic.Controls.Add(this.btnDelete);
+            this.tabBasic.Controls.Add(this.btnCancel);
+            this.tabBasic.Controls.Add(this.btnSave);
+            this.tabBasic.Controls.Add(this.btnAdd);
+            this.tabBasic.Location = new System.Drawing.Point(4, 25);
+            this.tabBasic.Name = "tabBasic";
+            this.tabBasic.Padding = new System.Windows.Forms.Padding(3);
+            this.tabBasic.Size = new System.Drawing.Size(966, 25);
+            this.tabBasic.TabIndex = 0;
+            this.tabBasic.Text = "📋 Cơ Bản";
+            this.tabBasic.UseVisualStyleBackColor = true;
+            // 
+            // tabAdvanced
+            // 
+            this.tabAdvanced = new System.Windows.Forms.TabPage();
+            this.tabAdvanced.Controls.Add(this.btnGanTaiKhoan);
+            this.tabAdvanced.Controls.Add(this.btnResetPass);
+            this.tabAdvanced.Controls.Add(this.btnKhoaTK);
+            this.tabAdvanced.Controls.Add(this.btnMoKhoaTK);
+            this.tabAdvanced.Controls.Add(this.btnXoaTK);
+            this.tabAdvanced.Location = new System.Drawing.Point(4, 25);
+            this.tabAdvanced.Name = "tabAdvanced";
+            this.tabAdvanced.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAdvanced.Size = new System.Drawing.Size(966, 25);
+            this.tabAdvanced.TabIndex = 1;
+            this.tabAdvanced.Text = "⚙️ Nâng Cao";
+            this.tabAdvanced.UseVisualStyleBackColor = true;
+            // 
+            // btnGanTaiKhoan
+            // 
+            this.btnGanTaiKhoan = new System.Windows.Forms.Button();
+            this.btnGanTaiKhoan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
+            this.btnGanTaiKhoan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGanTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnGanTaiKhoan.ForeColor = System.Drawing.Color.White;
+            this.btnGanTaiKhoan.Location = new System.Drawing.Point(20, -3);
+            this.btnGanTaiKhoan.Name = "btnGanTaiKhoan";
+            this.btnGanTaiKhoan.Size = new System.Drawing.Size(130, 28);
+            this.btnGanTaiKhoan.TabIndex = 0;
+            this.btnGanTaiKhoan.Text = "🔑 Gán TK";
+            this.btnGanTaiKhoan.UseVisualStyleBackColor = false;
+            this.btnGanTaiKhoan.Click += new System.EventHandler(this.btnGanTaiKhoan_Click);
+            // 
+            // btnResetPass
+            // 
+            this.btnResetPass = new System.Windows.Forms.Button();
+            this.btnResetPass.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(89)))), ((int)(((byte)(182)))));
+            this.btnResetPass.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnResetPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnResetPass.ForeColor = System.Drawing.Color.White;
+            this.btnResetPass.Location = new System.Drawing.Point(170, -3);
+            this.btnResetPass.Name = "btnResetPass";
+            this.btnResetPass.Size = new System.Drawing.Size(130, 28);
+            this.btnResetPass.TabIndex = 1;
+            this.btnResetPass.Text = "🔄 Reset MK";
+            this.btnResetPass.UseVisualStyleBackColor = false;
+            this.btnResetPass.Click += new System.EventHandler(this.btnResetPass_Click);
+            // 
+            // btnKhoaTK
+            // 
+            this.btnKhoaTK = new System.Windows.Forms.Button();
+            this.btnKhoaTK.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(126)))), ((int)(((byte)(34)))));
+            this.btnKhoaTK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnKhoaTK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnKhoaTK.ForeColor = System.Drawing.Color.White;
+            this.btnKhoaTK.Location = new System.Drawing.Point(320, -3);
+            this.btnKhoaTK.Name = "btnKhoaTK";
+            this.btnKhoaTK.Size = new System.Drawing.Size(130, 28);
+            this.btnKhoaTK.TabIndex = 2;
+            this.btnKhoaTK.Text = "🔒 Khóa TK";
+            this.btnKhoaTK.UseVisualStyleBackColor = false;
+            this.btnKhoaTK.Click += new System.EventHandler(this.btnKhoaTK_Click);
+            // 
+            // btnMoKhoaTK
+            // 
+            this.btnMoKhoaTK = new System.Windows.Forms.Button();
+            this.btnMoKhoaTK.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnMoKhoaTK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMoKhoaTK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnMoKhoaTK.ForeColor = System.Drawing.Color.White;
+            this.btnMoKhoaTK.Location = new System.Drawing.Point(470, -3);
+            this.btnMoKhoaTK.Name = "btnMoKhoaTK";
+            this.btnMoKhoaTK.Size = new System.Drawing.Size(130, 28);
+            this.btnMoKhoaTK.TabIndex = 3;
+            this.btnMoKhoaTK.Text = "🔓 Mở Khóa";
+            this.btnMoKhoaTK.UseVisualStyleBackColor = false;
+            this.btnMoKhoaTK.Click += new System.EventHandler(this.btnMoKhoaTK_Click);
+            // 
+            // btnXoaTK
+            // 
+            this.btnXoaTK = new System.Windows.Forms.Button();
+            this.btnXoaTK.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            this.btnXoaTK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnXoaTK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnXoaTK.ForeColor = System.Drawing.Color.White;
+            this.btnXoaTK.Location = new System.Drawing.Point(620, -3);
+            this.btnXoaTK.Name = "btnXoaTK";
+            this.btnXoaTK.Size = new System.Drawing.Size(130, 28);
+            this.btnXoaTK.TabIndex = 4;
+            this.btnXoaTK.Text = "🗑️ Xóa TK";
+            this.btnXoaTK.UseVisualStyleBackColor = false;
+            this.btnXoaTK.Click += new System.EventHandler(this.btnXoaTK_Click);
+            // 
             // btnEdit
             // 
-            this.btnEdit.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(77)))), ((int)(((byte)(221)))));
             this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(700, 10);
+            this.btnEdit.Location = new System.Drawing.Point(620, -3);
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(162, 35);
+            this.btnEdit.Size = new System.Drawing.Size(130, 28);
             this.btnEdit.TabIndex = 4;
             this.btnEdit.Text = "✏️ Chi Tiết";
             this.btnEdit.UseVisualStyleBackColor = false;
@@ -342,14 +456,13 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(88)))), ((int)(((byte)(155)))));
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(269, 10);
+            this.btnDelete.Location = new System.Drawing.Point(170, -3);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(120, 35);
+            this.btnDelete.Size = new System.Drawing.Size(130, 28);
             this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "🗑️ Xóa";
             this.btnDelete.UseVisualStyleBackColor = false;
@@ -357,14 +470,13 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(138)))), ((int)(((byte)(114)))));
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(548, 10);
+            this.btnCancel.Location = new System.Drawing.Point(470, -3);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(120, 35);
+            this.btnCancel.Size = new System.Drawing.Size(130, 28);
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "❌ Hủy";
             this.btnCancel.UseVisualStyleBackColor = false;
@@ -372,14 +484,13 @@
             // 
             // btnSave
             // 
-            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(77)))), ((int)(((byte)(221)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(410, 10);
+            this.btnSave.Location = new System.Drawing.Point(320, -3);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(120, 35);
+            this.btnSave.Size = new System.Drawing.Size(130, 28);
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "💾 Lưu";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -387,14 +498,13 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(161)))), ((int)(((byte)(251)))));
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(127, 10);
+            this.btnAdd.Location = new System.Drawing.Point(20, -3);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(120, 35);
+            this.btnAdd.Size = new System.Drawing.Size(130, 28);
             this.btnAdd.TabIndex = 0;
             this.btnAdd.Text = "➕ Thêm";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -417,6 +527,9 @@
             this.tableLayoutPanelForm.ResumeLayout(false);
             this.tableLayoutPanelForm.PerformLayout();
             this.panelButtons.ResumeLayout(false);
+            this.tabControlButtons.ResumeLayout(false);
+            this.tabBasic.ResumeLayout(false);
+            this.tabAdvanced.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

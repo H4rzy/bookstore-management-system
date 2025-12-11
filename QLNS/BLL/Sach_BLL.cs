@@ -43,6 +43,22 @@ namespace QLNS_BLL
                 if (dto.DonGiaBan <= dto.DonGiaNhap)
                     return false;
 
+                // Track price history if price changed
+                var oldSach = LaySachTheoMa(dto.MaSach);
+                if (oldSach != null && oldSach.DonGiaBan != dto.DonGiaBan)
+                {
+                    // Create price history entry
+                    string priceHistory = $"[{DateTime.Now:dd/MM/yyyy HH:mm}] " +
+                        $"Giá: {oldSach.DonGiaBan:N0} → {dto.DonGiaBan:N0} VNĐ | ";
+                    
+                    // Prepend to existing GhiChu
+                    dto.GhiChu = priceHistory + (dto.GhiChu ?? "");
+                    
+                    // Keep only last ~400 chars to avoid overflow
+                    if (dto.GhiChu.Length > 400)
+                        dto.GhiChu = dto.GhiChu.Substring(0, 400);
+                }
+
                 return dal.capNhatSach(dto);
             }
             catch { return false; }

@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLNS.UI.Forms;
 using QLNS_BLL;
 using QLNS_DTO;
 
 namespace QLNS.Forms
 {
-    public partial class FormLogin : Form
+    public partial class FormLogin : BorderlessForm
     {
         private TaiKhoan_BLL taiKhoanBLL = new TaiKhoan_BLL();
         private NhanVien_BLL nhanVienBLL = new NhanVien_BLL();

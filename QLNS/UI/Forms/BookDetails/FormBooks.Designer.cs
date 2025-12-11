@@ -48,10 +48,13 @@
             this.numDonGiaBan = new System.Windows.Forms.NumericUpDown();
             this.numSoLuongTon = new System.Windows.Forms.NumericUpDown();
             this.panelButtons = new System.Windows.Forms.Panel();
-            this.btnLuu = new System.Windows.Forms.Button();
-            this.btnXoa = new System.Windows.Forms.Button();
-            this.btnHuy = new System.Windows.Forms.Button();
+            this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnThem = new System.Windows.Forms.Button();
+            this.btnHuy = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnLuu = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panelTreeViews.SuspendLayout();
             this.groupBoxNXB.SuspendLayout();
@@ -65,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numDonGiaBan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSoLuongTon)).BeginInit();
             this.panelButtons.SuspendLayout();
+            this.flowLayoutPanelButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -452,83 +456,111 @@
             // 
             // panelButtons
             // 
-            this.panelButtons.Controls.Add(this.btnLuu);
-            this.panelButtons.Controls.Add(this.btnXoa);
-            this.panelButtons.Controls.Add(this.btnHuy);
-            this.panelButtons.Controls.Add(this.btnThem);
+            this.panelButtons.Controls.Add(this.flowLayoutPanelButtons);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelButtons.Location = new System.Drawing.Point(13, 647);
             this.panelButtons.Name = "panelButtons";
             this.panelButtons.Size = new System.Drawing.Size(1034, 60);
             this.panelButtons.TabIndex = 3;
             // 
-            // btnLuu
+            // flowLayoutPanelButtons
             // 
-            this.btnLuu.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnLuu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(77)))), ((int)(((byte)(221)))));
-            this.btnLuu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnLuu.ForeColor = System.Drawing.Color.White;
-            this.btnLuu.Location = new System.Drawing.Point(627, 9);
-            this.btnLuu.Margin = new System.Windows.Forms.Padding(30, 3, 30, 3);
-            this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
-            this.btnLuu.Size = new System.Drawing.Size(120, 35);
-            this.btnLuu.TabIndex = 3;
-            this.btnLuu.Text = "💾 Lưu";
-            this.btnLuu.UseVisualStyleBackColor = false;
-            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
+            this.flowLayoutPanelButtons.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.flowLayoutPanelButtons.AutoSize = true;
+            this.flowLayoutPanelButtons.Controls.Add(this.btnThem);
+            this.flowLayoutPanelButtons.Controls.Add(this.btnHuy);
+            this.flowLayoutPanelButtons.Controls.Add(this.btnXoa);
+            this.flowLayoutPanelButtons.Controls.Add(this.btnLuu);
+            this.flowLayoutPanelButtons.Controls.Add(this.btnImport);
+            this.flowLayoutPanelButtons.Controls.Add(this.btnExport);
+            this.flowLayoutPanelButtons.Location = new System.Drawing.Point(100, 10);
+            this.flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
+            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(834, 45);
+            this.flowLayoutPanelButtons.TabIndex = 0;
             // 
-            // btnXoa
+            // btnThem
             // 
-            this.btnXoa.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnXoa.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(88)))), ((int)(((byte)(155)))));
-            this.btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnXoa.ForeColor = System.Drawing.Color.White;
-            this.btnXoa.Location = new System.Drawing.Point(501, 9);
-            this.btnXoa.Margin = new System.Windows.Forms.Padding(30, 3, 30, 3);
-            this.btnXoa.Name = "btnXoa";
-            this.btnXoa.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
-            this.btnXoa.Size = new System.Drawing.Size(120, 35);
-            this.btnXoa.TabIndex = 2;
-            this.btnXoa.Text = "🗑️ Xóa";
-            this.btnXoa.UseVisualStyleBackColor = false;
-            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            this.btnThem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(161)))), ((int)(((byte)(251)))));
+            this.btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnThem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnThem.ForeColor = System.Drawing.Color.White;
+            this.btnThem.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.btnThem.Name = "btnThem";
+            this.btnThem.Size = new System.Drawing.Size(120, 38);
+            this.btnThem.TabIndex = 0;
+            this.btnThem.Text = "➕ Thêm";
+            this.btnThem.UseVisualStyleBackColor = false;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
             // btnHuy
             // 
-            this.btnHuy.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnHuy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(138)))), ((int)(((byte)(114)))));
             this.btnHuy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnHuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.btnHuy.ForeColor = System.Drawing.Color.White;
-            this.btnHuy.Location = new System.Drawing.Point(375, 9);
-            this.btnHuy.Margin = new System.Windows.Forms.Padding(30, 3, 30, 3);
+            this.btnHuy.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
-            this.btnHuy.Size = new System.Drawing.Size(120, 35);
+            this.btnHuy.Size = new System.Drawing.Size(120, 38);
             this.btnHuy.TabIndex = 1;
             this.btnHuy.Text = "❌ Hủy";
             this.btnHuy.UseVisualStyleBackColor = false;
             this.btnHuy.Click += new System.EventHandler(this.btnSua_Click);
             // 
-            // btnThem
+            // btnXoa
             // 
-            this.btnThem.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnThem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(161)))), ((int)(((byte)(251)))));
-            this.btnThem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnThem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.btnThem.ForeColor = System.Drawing.Color.White;
-            this.btnThem.Location = new System.Drawing.Point(249, 9);
-            this.btnThem.Margin = new System.Windows.Forms.Padding(30, 3, 30, 3);
-            this.btnThem.Name = "btnThem";
-            this.btnThem.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
-            this.btnThem.Size = new System.Drawing.Size(120, 35);
-            this.btnThem.TabIndex = 0;
-            this.btnThem.Text = "➕ Thêm";
-            this.btnThem.UseVisualStyleBackColor = false;
-            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
+            this.btnXoa.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(88)))), ((int)(((byte)(155)))));
+            this.btnXoa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnXoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnXoa.ForeColor = System.Drawing.Color.White;
+            this.btnXoa.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(120, 38);
+            this.btnXoa.TabIndex = 2;
+            this.btnXoa.Text = "🗑️ Xóa";
+            this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            // 
+            // btnLuu
+            // 
+            this.btnLuu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(77)))), ((int)(((byte)(221)))));
+            this.btnLuu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnLuu.ForeColor = System.Drawing.Color.White;
+            this.btnLuu.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.btnLuu.Name = "btnLuu";
+            this.btnLuu.Size = new System.Drawing.Size(120, 38);
+            this.btnLuu.TabIndex = 3;
+            this.btnLuu.Text = "💾 Lưu";
+            this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
+            // 
+            // btnImport
+            // 
+            this.btnImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(167)))), ((int)(((byte)(69)))));
+            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnImport.ForeColor = System.Drawing.Color.White;
+            this.btnImport.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(130, 38);
+            this.btnImport.TabIndex = 4;
+            this.btnImport.Text = "📥 Import";
+            this.btnImport.UseVisualStyleBackColor = false;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(153)))), ((int)(((byte)(0)))));
+            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.btnExport.ForeColor = System.Drawing.Color.White;
+            this.btnExport.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(130, 38);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "📤 Export";
+            this.btnExport.UseVisualStyleBackColor = false;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // FormBooks
             // 
@@ -554,6 +586,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numDonGiaBan)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSoLuongTon)).EndInit();
             this.panelButtons.ResumeLayout(false);
+            this.flowLayoutPanelButtons.ResumeLayout(false);
+            this.flowLayoutPanelButtons.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -591,9 +625,12 @@
         private System.Windows.Forms.NumericUpDown numDonGiaBan;
         private System.Windows.Forms.NumericUpDown numSoLuongTon;
         private System.Windows.Forms.Panel panelButtons;
-        private System.Windows.Forms.Button btnLuu;
-        private System.Windows.Forms.Button btnXoa;
-        private System.Windows.Forms.Button btnHuy;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelButtons;
         private System.Windows.Forms.Button btnThem;
+        private System.Windows.Forms.Button btnHuy;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnLuu;
+        private System.Windows.Forms.Button btnImport;
+        private System.Windows.Forms.Button btnExport;
     }
 }
